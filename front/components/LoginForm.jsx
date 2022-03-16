@@ -67,7 +67,7 @@ const LoginForm = () => {
                     </div>
                     <div>
                         <ButtonWrapper>
-                            <Button type="submit">로그인</Button>
+                            <Button htmlType="submit">로그인</Button>
                             <Button>
                                 <Link to="/signup">회원가입</Link>
                             </Button>

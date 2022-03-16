@@ -1,16 +1,18 @@
 import React from "react";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 import LoginForm from "./components/LoginForm.jsx";
-import AppLayout from "./components/AppLayout";
+import Home from "./components/Home";
 import SignupForm from "./components/SignupForm.jsx";
+import AddPostForm from "./components/AddPostForm.jsx";
 
 const App = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route exact path="/" element={<AppLayout />} />
+                <Route exact path="/" element={<Home />} />
                 <Route exact path="/login" element={<LoginForm />} />
                 <Route exact path="/signup" element={<SignupForm />} />
+                <Route exact path="/addPost" element={<AddPostForm />} />
             </Routes>
         </BrowserRouter>
     );

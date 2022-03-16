@@ -113,7 +113,7 @@ const SignupForm = () => {
                     <div>
                         <ButtonWrapper>
                             <Button
-                                type="submit"
+                                htmlType="submit"
                                 disabled={state.passwordError}
                             >
                                 회원가입

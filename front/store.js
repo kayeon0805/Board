@@ -9,6 +9,9 @@ const userStore = observable({
     logout: function () {
         (this.isLoggedIn = false), (this.data = null);
     },
+    signup: function (data) {
+        // axios.post('/user/signup', data);
+    },
 });
 
 const postStore = observable({

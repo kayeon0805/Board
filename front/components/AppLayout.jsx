@@ -3,7 +3,6 @@ import "antd/dist/antd.css";
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
 import { userStore } from "../store";
-import propTypes from "prop-types";
 import { observer } from "mobx-react";
 
 const AppLayout = ({ children }) => {
