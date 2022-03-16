@@ -4,29 +4,29 @@ import { Menu } from "antd";
 import { Link } from "react-router-dom";
 import { userStore } from "../store";
 import propTypes from "prop-types";
+import { observer } from "mobx-react";
 
 const AppLayout = ({ children }) => {
+    const onLogout = () => {
+        userStore.logout();
+    };
     return (
         <>
             <Menu mode="horizontal">
                 <Menu.Item>
                     <Link to="/">홈페이지</Link>
                 </Menu.Item>
-                <Menu.Item>
-                    {!userStore.isLoggedIn ? (
+                {!userStore.isLoggedIn ? (
+                    <Menu.Item>
                         <Link to="/login">로그인</Link>
-                    ) : (
-                        <Link to="/logout">로그아웃</Link>
-                    )}
-                </Menu.Item>
+                    </Menu.Item>
+                ) : (
+                    <Menu.Item onClick={onLogout}>로그아웃</Menu.Item>
+                )}
             </Menu>
             {children}
         </>
     );
 };
 
-AppLayout.propTypes = {
-    children: propTypes.node.isRequired,
-};
-
-export default AppLayout;
+export default observer(AppLayout);
