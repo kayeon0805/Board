@@ -63,7 +63,7 @@ const Home = () => {
             <ButtonWrapper>
                 <Button onClick={onClick}>
                     {userStore.data ? (
-                        <Link to="/addPost">게시글 작성</Link>
+                        <Link to="/post/add">게시글 작성</Link>
                     ) : (
                         "게시글 작성"
                     )}

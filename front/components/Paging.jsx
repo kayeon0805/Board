@@ -1,3 +1,4 @@
+import { observer } from "mobx-react";
 import React, { useState } from "react";
 import Pagination from "react-js-pagination";
 import { postStore } from "../store";
@@ -20,4 +21,4 @@ const Paging = () => {
         />
     );
 };
-export default Paging;
+export default observer(Paging);

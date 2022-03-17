@@ -1,6 +1,6 @@
 import { Card } from "antd";
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useCallback } from "react";
+import { Link, useParams } from "react-router-dom";
 import { postStore, userStore } from "../store";
 import {
     EditOutlined,
@@ -11,6 +11,7 @@ import Meta from "antd/lib/card/Meta";
 import { toJS } from "mobx";
 import styled from "styled-components";
 import { observer } from "mobx-react";
+import AppLayout from "./AppLayout";
 
 const CardWrapper = styled(Card)`
     margin: auto;
@@ -45,21 +46,27 @@ const PostContent = () => {
     )[0];
 
     return (
-        <CardWrapper
-            extra={post.title}
-            actions={[
-                <CommentOutlined key="comment" />,
-                post.id === toJS(userStore.data.id) && (
-                    <EditOutlined key="edit" />
-                ),
-                <DeleteOutlined key="delete" />,
-            ]}
-        >
-            <Meta
-                title={`작성자: ${post.nickname}`}
-                description={post.content}
-            />
-        </CardWrapper>
+        <AppLayout>
+            <CardWrapper
+                extra={post.title}
+                actions={
+                    userStore.data && post.id === toJS(userStore.data.id)
+                        ? [
+                              <CommentOutlined key="comment" />,
+                              <Link to="/post/modify" state={post}>
+                                  <EditOutlined key="edit" />
+                              </Link>,
+                              <DeleteOutlined key="delete" />,
+                          ]
+                        : [<CommentOutlined key="comment" />]
+                }
+            >
+                <Meta
+                    title={`작성자: ${post.nickname}`}
+                    description={post.content}
+                />
+            </CardWrapper>
+        </AppLayout>
     );
 };
 
