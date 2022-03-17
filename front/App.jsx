@@ -4,6 +4,7 @@ import LoginForm from "./components/LoginForm.jsx";
 import Home from "./components/Home";
 import SignupForm from "./components/SignupForm.jsx";
 import AddPostForm from "./components/AddPostForm.jsx";
+import PostContent from "./components/PostContent.jsx";
 
 const App = () => {
     return (
@@ -13,6 +14,7 @@ const App = () => {
                 <Route exact path="/login" element={<LoginForm />} />
                 <Route exact path="/signup" element={<SignupForm />} />
                 <Route exact path="/addPost" element={<AddPostForm />} />
+                <Route exact path="/post/:postId" element={<PostContent />} />
             </Routes>
         </BrowserRouter>
     );

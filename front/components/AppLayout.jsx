@@ -11,16 +11,18 @@ const AppLayout = ({ children }) => {
     };
     return (
         <>
-            <Menu mode="horizontal">
-                <Menu.Item>
+            <Menu mode="horizontal" style={{ marginBottom: 40 }}>
+                <Menu.Item key="home">
                     <Link to="/">홈페이지</Link>
                 </Menu.Item>
                 {!userStore.isLoggedIn ? (
-                    <Menu.Item>
+                    <Menu.Item key="login">
                         <Link to="/login">로그인</Link>
                     </Menu.Item>
                 ) : (
-                    <Menu.Item onClick={onLogout}>로그아웃</Menu.Item>
+                    <Menu.Item key="logout" onClick={onLogout}>
+                        로그아웃
+                    </Menu.Item>
                 )}
             </Menu>
             {children}

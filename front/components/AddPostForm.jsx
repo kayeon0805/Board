@@ -2,6 +2,7 @@ import { Button, Form, Input } from "antd";
 import { observer, useLocalObservable } from "mobx-react";
 import React, { useCallback } from "react";
 import styled from "styled-components";
+import { postStore } from "../store";
 import AppLayout from "./AppLayout";
 
 const FormWrapper = styled.div`
@@ -27,7 +28,15 @@ const AddPostForm = () => {
         },
     }));
 
-    const onAddPost = useCallback(() => {}, []);
+    const onAddPost = useCallback(() => {
+        postStore.addPost({
+            postId: 3,
+            id: "kayeon",
+            nickname: "kayeon",
+            title: state.title,
+            content: state.content,
+        });
+    }, [state.title, state.content]);
 
     return (
         <AppLayout>
@@ -41,6 +50,7 @@ const AddPostForm = () => {
                             onChange={state.onChangeTitle}
                             allowClear={true}
                             required
+                            autoFocus
                         />
                     </Form.Item>
                     <Form.Item label="내용">

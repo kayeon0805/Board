@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { userStore } from "../store";
 import { observer, useLocalObservable } from "mobx-react";
 import "antd/dist/antd.css";
@@ -51,6 +51,7 @@ const LoginForm = () => {
                                 onChange={state.onChangeId}
                                 allowClear={true}
                                 required
+                                autoFocus
                             />
                         </Form.Item>
                     </div>

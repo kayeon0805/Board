@@ -69,6 +69,7 @@ const SignupForm = () => {
                                 onChange={state.onChangeId}
                                 allowClear={true}
                                 required
+                                autoFocus
                             />
                         </Form.Item>
                     </div>
