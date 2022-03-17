@@ -1,6 +1,6 @@
 import { Card } from "antd";
 import React, { useCallback } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { postStore, userStore } from "../store";
 import {
     EditOutlined,
@@ -45,6 +45,16 @@ const PostContent = () => {
         (v) => v.postId === parseInt(postId)
     )[0];
 
+    const navigate = useNavigate();
+    const onDeletePost = useCallback(() => {
+        const deleteConfirm = confirm("게시글을 삭제하시겠습니까?");
+        if (!deleteConfirm) {
+            return;
+        }
+        postStore.deletePost(post.postId);
+        navigate("/");
+    }, []);
+
     return (
         <AppLayout>
             <CardWrapper
@@ -56,7 +66,10 @@ const PostContent = () => {
                               <Link to="/post/modify" state={post}>
                                   <EditOutlined key="edit" />
                               </Link>,
-                              <DeleteOutlined key="delete" />,
+                              <DeleteOutlined
+                                  key="delete"
+                                  onClick={onDeletePost}
+                              />,
                           ]
                         : [<CommentOutlined key="comment" />]
                 }

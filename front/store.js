@@ -65,7 +65,7 @@ const postStore = observable({
         post.content = data.content;
     },
     deletePost: function (id) {
-        posts = posts.filter((v) => v.postId !== id);
+        this.posts = this.posts.filter((v) => v.postId !== id);
     },
 });
 
