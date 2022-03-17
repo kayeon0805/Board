@@ -1,13 +1,15 @@
 import React from "react";
 import "antd/dist/antd.css";
 import { Menu } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { userStore } from "../store";
 import { observer } from "mobx-react";
 
 const AppLayout = ({ children }) => {
+    const navigate = useNavigate();
     const onLogout = () => {
         userStore.logout();
+        navigate("/");
     };
     return (
         <>

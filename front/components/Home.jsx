@@ -1,11 +1,12 @@
 import React from "react";
 import AppLayout from "./AppLayout";
-import { postStore } from "../store";
+import { postStore, userStore } from "../store";
 import { observer } from "mobx-react";
-import { Button, Pagination } from "antd";
+import { Button } from "antd";
 import { Link } from "react-router-dom";
 import PostList from "./PostList";
 import styled from "styled-components";
+import Paging from "./Paging";
 
 const Table = styled.table`
     width: 800px;
@@ -35,6 +36,11 @@ const PageWrapper = styled.div`
 `;
 
 const Home = () => {
+    const onClick = () => {
+        if (!userStore.data) {
+            return alert("로그인이 필요한 작업입니다.");
+        }
+    };
     return (
         <AppLayout>
             {postStore.posts.length > 0 ? (
@@ -55,16 +61,15 @@ const Home = () => {
                 <div>게시글이 존재하지 않습니다.</div>
             )}
             <ButtonWrapper>
-                <Button>
-                    <Link to="/addPost">게시글 작성</Link>
+                <Button onClick={onClick}>
+                    {userStore.data ? (
+                        <Link to="/addPost">게시글 작성</Link>
+                    ) : (
+                        "게시글 작성"
+                    )}
                 </Button>
             </ButtonWrapper>
-            <PageWrapper>
-                <Pagination
-                    defaultCurrent={1}
-                    total={postStore.posts.length / 10}
-                />
-            </PageWrapper>
+            <Paging />
         </AppLayout>
     );
 };

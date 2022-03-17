@@ -22,7 +22,7 @@ const postStore = observable({
             nickname: "쿠키쿠키",
             title: "세번째 게시글입니다.",
             content: "내용내용내용내용",
-            day: "220317",
+            day: "2022-03-17",
             count: 0,
         },
         {
@@ -31,7 +31,7 @@ const postStore = observable({
             nickname: "kayeon2",
             title: "2",
             content: "두번쩨 게시글",
-            day: "220317",
+            day: "2022-03-17",
             count: 0,
         },
         {
@@ -40,12 +40,26 @@ const postStore = observable({
             nickname: "kayeon",
             title: "1",
             content: "첫 게시글",
-            day: "220317",
+            day: "2022-03-17",
             count: 0,
         },
     ],
     addPost: function (data) {
-        posts.unshift(data);
+        try {
+            const userInfo = userStore.data;
+            const postData = {
+                postId: this.posts[0].postId + 1,
+                id: userInfo.id,
+                nickname: userInfo.nickname || "kayeon",
+                title: data.title,
+                content: data.content,
+                day: new Date().toISOString().substring(0, 10),
+                count: 0,
+            };
+            this.posts.unshift(postData);
+        } catch (err) {
+            console.error(err);
+        }
     },
     deletePost: function (id) {
         posts = posts.filter((v) => v.postId !== id);

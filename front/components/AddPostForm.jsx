@@ -1,6 +1,7 @@
 import { Button, Form, Input } from "antd";
 import { observer, useLocalObservable } from "mobx-react";
 import React, { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { postStore } from "../store";
 import AppLayout from "./AppLayout";
@@ -28,14 +29,13 @@ const AddPostForm = () => {
         },
     }));
 
+    const navigate = useNavigate();
     const onAddPost = useCallback(() => {
         postStore.addPost({
-            postId: 3,
-            id: "kayeon",
-            nickname: "kayeon",
             title: state.title,
             content: state.content,
         });
+        navigate("/");
     }, [state.title, state.content]);
 
     return (
