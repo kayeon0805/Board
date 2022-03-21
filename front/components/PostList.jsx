@@ -10,7 +10,7 @@ const PostList = ({ post }) => {
                 <Link to={`/post/${post.postId}`}>{post.title}</Link>
             </td>
             <td>{post.nickname}</td>
-            <td>{post.day}</td>
+            <td>{post.date}</td>
             <td>{post.count}</td>
         </tr>
     );

@@ -1,5 +1,5 @@
 import { Card } from "antd";
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { postStore, userStore } from "../store";
 import {
@@ -12,6 +12,8 @@ import { toJS } from "mobx";
 import styled from "styled-components";
 import { observer } from "mobx-react";
 import AppLayout from "./AppLayout";
+import AddCommentForm from "./AddCommentForm";
+import ShowComment from "./ShowComment";
 
 const CardWrapper = styled(Card)`
     margin: auto;
@@ -45,6 +47,14 @@ const PostContent = () => {
         (v) => v.postId === parseInt(postId)
     )[0];
 
+    const [addComment, setAddComment] = useState(false);
+    const onClickAddComment = useCallback(() => {
+        if (!userStore.data) {
+            return alert("로그인이 필요한 작업입니다.");
+        }
+        setAddComment(true);
+    }, []);
+
     const navigate = useNavigate();
     const onDeletePost = useCallback(() => {
         const deleteConfirm = confirm("게시글을 삭제하시겠습니까?");
@@ -60,9 +70,13 @@ const PostContent = () => {
             <CardWrapper
                 extra={post.title}
                 actions={
-                    userStore.data && post.id === toJS(userStore.data.id)
+                    !addComment &&
+                    (userStore.data && post.id === toJS(userStore.data.id)
                         ? [
-                              <CommentOutlined key="comment" />,
+                              <CommentOutlined
+                                  key="comment"
+                                  onClick={onClickAddComment}
+                              />,
                               <Link to="/post/modify" state={post}>
                                   <EditOutlined key="edit" />
                               </Link>,
@@ -71,14 +85,26 @@ const PostContent = () => {
                                   onClick={onDeletePost}
                               />,
                           ]
-                        : [<CommentOutlined key="comment" />]
+                        : [
+                              <CommentOutlined
+                                  key="comment"
+                                  onClick={onClickAddComment}
+                              />,
+                          ])
                 }
             >
                 <Meta
-                    title={`작성자: ${post.nickname}`}
+                    title={`${post.nickname}  |  ${post.date}`}
                     description={post.content}
                 />
             </CardWrapper>
+            {addComment && (
+                <AddCommentForm post={post} setAddComment={setAddComment} />
+            )}
+            {post.Comments.length > 0 &&
+                post.Comments.map((v, i) => (
+                    <ShowComment key={i} Comment={v} post={post} />
+                ))}
         </AppLayout>
     );
 };
