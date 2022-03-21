@@ -62,6 +62,7 @@ const postStore = observable({
             content: data.content,
             date: new Date().toISOString().substring(0, 10),
             count: 0,
+            Comments: [],
         };
         this.posts.unshift(postData);
     },

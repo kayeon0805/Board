@@ -1,4 +1,4 @@
-import { CheckOutlined } from "@ant-design/icons";
+import { CheckSquareOutlined } from "@ant-design/icons";
 import { observer, useLocalObservable } from "mobx-react";
 import React, { useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -88,7 +88,7 @@ const ModifyPostForm = () => {
                             />
                         </td>
                     </tr>
-                    <CheckOutlined
+                    <CheckSquareOutlined
                         onClick={onModifyPost}
                         style={{ fontSize: "2em" }}
                     />

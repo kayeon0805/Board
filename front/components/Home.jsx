@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AppLayout from "./AppLayout";
 import { postStore, userStore } from "../store";
 import { observer } from "mobx-react";
@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import PostList from "./PostList";
 import styled from "styled-components";
 import Paging from "./Paging";
+import { toJS } from "mobx";
 
 const Table = styled.table`
     width: 800px;
@@ -36,10 +37,26 @@ const PageWrapper = styled.div`
 `;
 
 const Home = () => {
+    const [page, setPage] = useState(1);
+    const selectPost = [0, 4];
+    if (page !== 1) {
+        selectPost.splice(0, 1, selectPost[0] + (parseInt(page) - 1) * 5);
+        selectPost.splice(1, 1, selectPost[1] + (parseInt(page) - 1) * 5);
+    }
     const onClick = () => {
         if (!userStore.data) {
             return alert("로그인이 필요한 작업입니다.");
         }
+    };
+    const rendering = () => {
+        const arr = [];
+        for (let i = selectPost[0]; i <= selectPost[1]; i++) {
+            const item = toJS(postStore.posts[i]);
+            if (item) {
+                arr.push(<PostList key={i} post={item} />);
+            }
+        }
+        return arr;
     };
     return (
         <AppLayout>
@@ -52,9 +69,7 @@ const Home = () => {
                             <td className="table-division">작성일시</td>
                             <td className="table-division">조회수</td>
                         </tr>
-                        {postStore.posts.map((v, i) => (
-                            <PostList key={i} post={postStore.posts[i]} />
-                        ))}
+                        {rendering()}
                     </tbody>
                 </Table>
             ) : (
@@ -69,7 +84,7 @@ const Home = () => {
                     )}
                 </Button>
             </ButtonWrapper>
-            <Paging />
+            <Paging page={page} setPage={setPage} />
         </AppLayout>
     );
 };

@@ -6,6 +6,7 @@ import {
     EditOutlined,
     DeleteOutlined,
     CommentOutlined,
+    EyeOutlined,
 } from "@ant-design/icons";
 import Meta from "antd/lib/card/Meta";
 import { toJS } from "mobx";
@@ -39,13 +40,17 @@ const CardWrapper = styled(Card)`
     & .ant-card-body {
         height: 500px;
     }
+
+    & #count {
+        margin-left: 360px;
+    }
 `;
 
 const PostContent = () => {
-    const { postId } = useParams();
-    const post = toJS(postStore.posts).filter(
+    const { postId } = useParams(); // find 쓰면되염
+    const post = toJS(postStore.posts).find(
         (v) => v.postId === parseInt(postId)
-    )[0];
+    );
 
     useEffect(() => {
         postStore.addCount(parseInt(postId));
@@ -72,7 +77,7 @@ const PostContent = () => {
     return (
         <AppLayout>
             <CardWrapper
-                extra={post.title}
+                extra={post?.title}
                 actions={
                     !addComment &&
                     (userStore.data && post.id === toJS(userStore.data.id)
@@ -97,6 +102,9 @@ const PostContent = () => {
                           ])
                 }
             >
+                <span id="count">
+                    <EyeOutlined /> {post.count}
+                </span>
                 <Meta
                     title={`${post.nickname}  |  ${post.date}`}
                     description={post.content}

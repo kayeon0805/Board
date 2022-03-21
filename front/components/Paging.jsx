@@ -3,8 +3,7 @@ import React, { useState } from "react";
 import Pagination from "react-js-pagination";
 import { postStore } from "../store";
 
-const Paging = () => {
-    const [page, setPage] = useState(1);
+const Paging = ({ page, setPage }) => {
     const handlePageChange = (page) => {
         setPage(page);
     };
