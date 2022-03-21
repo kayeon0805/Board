@@ -42,7 +42,7 @@ const AddCommentForm = ({ post, setAddComment }) => {
     const onClick = useCallback(() => {
         postStore.addComment({
             postId: post.postId,
-            comment: state.comment,
+            content: state.comment,
         });
         navigate(`/`);
     }, [state.comment]);

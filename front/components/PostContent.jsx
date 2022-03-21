@@ -1,5 +1,5 @@
 import { Card } from "antd";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { postStore, userStore } from "../store";
 import {
@@ -46,6 +46,10 @@ const PostContent = () => {
     const post = toJS(postStore.posts).filter(
         (v) => v.postId === parseInt(postId)
     )[0];
+
+    useEffect(() => {
+        postStore.addCount(parseInt(postId));
+    }, [postId]);
 
     const [addComment, setAddComment] = useState(false);
     const onClickAddComment = useCallback(() => {

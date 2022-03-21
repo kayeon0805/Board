@@ -47,6 +47,11 @@ const postStore = observable({
             Comments: [],
         },
     ],
+    addCount: function (postId) {
+        const postIndex = this.posts.findIndex((v) => v.postId === postId);
+        const post = this.posts[postIndex];
+        post.count += 1;
+    },
     addPost: function (data) {
         const userInfo = userStore.data;
         const postData = {
@@ -81,7 +86,7 @@ const postStore = observable({
                     : 1,
             id: userInfo.id,
             nickname: userInfo.nickname || "kayeon",
-            comment: data.comment,
+            content: data.content,
             date: new Date().toISOString().substring(0, 10),
         };
         post.Comments.push(commentData);
@@ -92,7 +97,7 @@ const postStore = observable({
         const Comment = post.Comments.filter(
             (v) => v.commentId === data.commentId
         )[0];
-        Comment.comment = data.comment;
+        Comment.content = data.content;
     },
     deleteComment: function (data) {
         const postIndex = this.posts.findIndex((v) => v.postId === data.postId);

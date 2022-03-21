@@ -45,7 +45,7 @@ const ModifyCommentCard = styled.div`
 const ShowComment = ({ Comment, post }) => {
     const navigate = useNavigate();
     const onDeleteComment = useCallback(() => {
-        const deleteConfirm = confirm("게시글을 삭제하시겠습니까?");
+        const deleteConfirm = confirm("댓글을 삭제하시겠습니까?");
         if (!deleteConfirm) {
             return;
         }
@@ -61,7 +61,7 @@ const ShowComment = ({ Comment, post }) => {
         setModifyComment(true);
     }, []);
 
-    const [editComment, setEditComment] = useState(Comment.comment);
+    const [editComment, setEditComment] = useState(Comment.content);
     const onChangeComment = useCallback((e) => {
         setEditComment(e.target.value);
     }, []);
@@ -70,7 +70,7 @@ const ShowComment = ({ Comment, post }) => {
         postStore.modifyComment({
             postId: post.postId,
             commentId: Comment.commentId,
-            comment: editComment,
+            content: editComment,
         });
         navigate("/");
     }, [editComment]);
@@ -79,7 +79,7 @@ const ShowComment = ({ Comment, post }) => {
         return (
             <ModifyCommentCard>
                 <form>
-                    <textArea value={editComment} onChange={onChangeComment} />
+                    <textarea value={editComment} onChange={onChangeComment} />
                     <button onClick={onClickModify}>수정</button>
                 </form>
             </ModifyCommentCard>
@@ -98,7 +98,7 @@ const ShowComment = ({ Comment, post }) => {
         >
             <Meta
                 title={`${Comment.nickname}  |  ${Comment.date}`}
-                description={Comment.comment}
+                description={Comment.content}
             />
         </CardWrapper>
     );
