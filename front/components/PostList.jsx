@@ -6,12 +6,12 @@ import { observer } from "mobx-react";
 const PostList = ({ post }) => {
     return (
         <tr>
-            <td>
+            <td className="title">
                 <Link to={`/post/${post.postId}`}>{post?.title}</Link>
             </td>
-            <td>{post.nickname}</td>
-            <td>{post.date}</td>
-            <td>{post.count}</td>
+            <td className="nickname">{post.nickname}</td>
+            <td className="date">{post.date}</td>
+            <td className="count">{post.count}</td>
         </tr>
     );
 };

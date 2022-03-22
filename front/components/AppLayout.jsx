@@ -2,7 +2,7 @@ import React from "react";
 import "antd/dist/antd.css";
 import { Menu } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import { userStore } from "../store";
+import { pageStore, userStore } from "../store";
 import { observer } from "mobx-react";
 
 const AppLayout = ({ children }) => {
@@ -11,10 +11,13 @@ const AppLayout = ({ children }) => {
         userStore.logout();
         navigate("/");
     };
+    const onPageOne = () => {
+        pageStore.setPage(1);
+    };
     return (
         <>
             <Menu mode="horizontal" style={{ marginBottom: 40 }}>
-                <Menu.Item key="home">
+                <Menu.Item key="home" onClick={onPageOne}>
                     <Link to="/">홈페이지</Link>
                 </Menu.Item>
                 {!userStore.isLoggedIn ? (

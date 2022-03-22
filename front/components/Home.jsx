@@ -1,35 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import AppLayout from "./AppLayout";
 import { pageStore, postStore, userStore } from "../store";
 import { observer } from "mobx-react";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
 import PostList from "./PostList";
-import styled from "styled-components";
 import Paging from "./Paging";
 import { toJS } from "mobx";
-
-const Table = styled.table`
-    width: 800px;
-    border: 1px solid grey;
-    text-align: center;
-    margin: auto;
-
-    & .table-division {
-        border: 1px solid grey;
-        height: 30px;
-    }
-
-    & td {
-        border: 1px solid grey;
-        height: 45px;
-    }
-`;
-
-const ButtonWrapper = styled.div`
-    margin-top: 10px;
-    margin-left: 1062px;
-`;
+import { ButtonWrapper, TableWrapper } from "../styles";
 
 const Home = () => {
     const page = toJS(pageStore.page);
@@ -63,7 +41,7 @@ const Home = () => {
     return (
         <AppLayout>
             {postStore.posts.length > 0 ? (
-                <Table>
+                <TableWrapper>
                     <tbody>
                         <tr>
                             <td className="table-division">제목</td>
@@ -73,7 +51,7 @@ const Home = () => {
                         </tr>
                         {rendering()}
                     </tbody>
-                </Table>
+                </TableWrapper>
             ) : (
                 <div>게시글이 존재하지 않습니다.</div>
             )}
