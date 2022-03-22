@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AppLayout from "./AppLayout";
-import { postStore, userStore } from "../store";
+import { pageStore, postStore, userStore } from "../store";
 import { observer } from "mobx-react";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
@@ -31,33 +31,35 @@ const ButtonWrapper = styled.div`
     margin-left: 1062px;
 `;
 
-const PageWrapper = styled.div`
-    margin-top: 10px;
-    text-align: center;
-`;
-
 const Home = () => {
-    const [page, setPage] = useState(1);
-    const selectPost = [0, 4];
+    const page = toJS(pageStore.page);
+    // 페이지에 따라 보여주는 게시물을 다르게 하기 위해
+    const selectPost = [0, 9];
+    // ex) 1페이지는 0 ~ 9, 2페이지는 10 ~ 19, 3페이지는 20 ~ 29
     if (page !== 1) {
-        selectPost.splice(0, 1, selectPost[0] + (parseInt(page) - 1) * 5);
-        selectPost.splice(1, 1, selectPost[1] + (parseInt(page) - 1) * 5);
+        selectPost.splice(0, 1, selectPost[0] + (parseInt(page) - 1) * 10);
+        selectPost.splice(1, 1, selectPost[1] + (parseInt(page) - 1) * 10);
     }
+
+    const rendering = () => {
+        // 전체 게시글이 10개 이하일 경우
+        let postCount = selectPost[1];
+        if (toJS(postStore.posts.length - 1) < selectPost[1]) {
+            postCount = postStore.posts.length - 1;
+        }
+        const arr = [];
+        for (let i = selectPost[0]; i <= postCount; i++) {
+            arr.push(<PostList key={i} post={toJS(postStore.posts[i])} />);
+        }
+        return arr;
+    };
+
     const onClick = () => {
         if (!userStore.data) {
             return alert("로그인이 필요한 작업입니다.");
         }
     };
-    const rendering = () => {
-        const arr = [];
-        for (let i = selectPost[0]; i <= selectPost[1]; i++) {
-            const item = toJS(postStore.posts[i]);
-            if (item) {
-                arr.push(<PostList key={i} post={item} />);
-            }
-        }
-        return arr;
-    };
+
     return (
         <AppLayout>
             {postStore.posts.length > 0 ? (
@@ -84,7 +86,7 @@ const Home = () => {
                     )}
                 </Button>
             </ButtonWrapper>
-            <Paging page={page} setPage={setPage} />
+            <Paging page={page} />
         </AppLayout>
     );
 };

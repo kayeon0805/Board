@@ -42,7 +42,7 @@ const CardWrapper = styled(Card)`
     }
 
     & #count {
-        margin-left: 360px;
+        margin-left: 720px;
     }
 `;
 

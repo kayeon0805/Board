@@ -1,5 +1,12 @@
 const { observable } = require("mobx");
 
+const pageStore = observable({
+    page: 1,
+    setPage: function (page) {
+        this.page = page;
+    },
+});
+
 const userStore = observable({
     isLoggedIn: false,
     data: null,
@@ -109,4 +116,4 @@ const postStore = observable({
     },
 });
 
-export { userStore, postStore };
+export { pageStore, userStore, postStore };
