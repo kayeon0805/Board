@@ -1,4 +1,5 @@
 const { observable } = require("mobx");
+const axios = require("axios");
 
 const pageStore = observable({
     page: 1,
@@ -10,14 +11,21 @@ const pageStore = observable({
 const userStore = observable({
     isLoggedIn: false,
     data: null,
-    login: function (data) {
-        (this.isLoggedIn = true), (this.data = data);
+    login: function async(data) {
+        try {
+            await axios
+                .post("/user/login", data)
+                .then(() => (this.isLoggedIn = true), (this.data = data))
+                .catch();
+        } catch (error) {
+            console.error(error);
+        }
     },
     logout: function () {
         (this.isLoggedIn = false), (this.data = null);
     },
-    signup: function (data) {
-        // axios.post('/user/signup', data);
+    signup: function async(data) {
+        const result = await axios.post("/user", data);
     },
 });
 
@@ -25,7 +33,7 @@ const postStore = observable({
     posts: [
         {
             postId: 3,
-            id: "1",
+            email: "1",
             nickname: "쿠키쿠키",
             title: "세번째 게시글입니다.",
             content: "내용내용내용내용",
@@ -35,7 +43,7 @@ const postStore = observable({
         },
         {
             postId: 2,
-            id: "kayeon2",
+            email: "kayeon2",
             nickname: "kayeon2",
             title: "2",
             content: "두번쩨 게시글",
@@ -45,7 +53,7 @@ const postStore = observable({
         },
         {
             postId: 1,
-            id: "kayeon",
+            email: "kayeon",
             nickname: "kayeon",
             title: "1",
             content: "첫 게시글",
@@ -63,7 +71,7 @@ const postStore = observable({
         const userInfo = userStore.data;
         const postData = {
             postId: this.posts[0].postId + 1,
-            id: userInfo.id,
+            email: userInfo.email,
             nickname: userInfo.nickname || "kayeon",
             title: data.title,
             content: data.content,
@@ -92,7 +100,7 @@ const postStore = observable({
                 post.Comments.length > 0
                     ? post.Comments[post.Comments.length - 1].commentId + 1
                     : 1,
-            id: userInfo.id,
+            email: userInfo.email,
             nickname: userInfo.nickname || "kayeon",
             content: data.content,
             date: new Date().toISOString().substring(0, 10),

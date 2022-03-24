@@ -20,13 +20,13 @@ const ButtonWrapper = styled.div`
 
 const SignupForm = () => {
     const state = useLocalObservable(() => ({
-        id: "",
+        email: "",
         password: "",
         passwordCheck: "",
         nickname: "",
         passwordError: null,
-        onChangeId: function (e) {
-            this.id = e.target.value;
+        onChangeEmail: function (e) {
+            this.email = e.target.value;
         },
         onChangePassword: function (e) {
             this.password = e.target.value;
@@ -50,7 +50,7 @@ const SignupForm = () => {
     const navigate = useNavigate();
     const onSignup = () => {
         userStore.signup({
-            id: state.id,
+            email: state.email,
             password: state.password,
             nickname: state.nickname,
         });
@@ -64,9 +64,9 @@ const SignupForm = () => {
                     <div>
                         <Form.Item label="아이디">
                             <Input
-                                type="text"
-                                value={state.id}
-                                onChange={state.onChangeId}
+                                type="email"
+                                value={state.email}
+                                onChange={state.onChangeEmail}
                                 allowClear={true}
                                 required
                                 autoFocus

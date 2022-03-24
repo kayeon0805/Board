@@ -20,10 +20,10 @@ const ButtonWrapper = styled.div`
 
 const LoginForm = () => {
     const state = useLocalObservable(() => ({
-        id: "",
+        email: "",
         password: "",
-        onChangeId: function (e) {
-            this.id = e.target.value;
+        onChangeEmail: function (e) {
+            this.email = e.target.value;
         },
         onChangePassword: function (e) {
             this.password = e.target.value;
@@ -33,11 +33,11 @@ const LoginForm = () => {
     const navigate = useNavigate();
     const onLogin = useCallback(() => {
         userStore.login({
-            id: state.id,
+            email: state.email,
             password: state.password,
         });
         navigate("/");
-    }, [state.id, state.password]);
+    }, [state.email, state.password]);
 
     return (
         <AppLayout>
@@ -46,9 +46,9 @@ const LoginForm = () => {
                     <div>
                         <Form.Item label="아이디">
                             <Input
-                                type="text"
-                                value={state.id}
-                                onChange={state.onChangeId}
+                                type="email"
+                                value={state.email}
+                                onChange={state.onChangeEmail}
                                 allowClear={true}
                                 required
                                 autoFocus

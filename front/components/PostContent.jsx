@@ -80,7 +80,7 @@ const PostContent = () => {
                 extra={post?.title}
                 actions={
                     !addComment &&
-                    (userStore.data && post.id === toJS(userStore.data.id)
+                    (userStore.data && post.email === toJS(userStore.data.email)
                         ? [
                               <CommentOutlined
                                   key="comment"
