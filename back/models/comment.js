@@ -2,8 +2,14 @@ module.exports = (sequelize, DataTypes) => {
     const Comment = sequelize.define(
         "Comment",
         {
-            content: {},
-            date: {},
+            content: {
+                type: DataTypes.STRING(200),
+                allowNull: false,
+            },
+            date: {
+                type: DataTypes.STRING(30),
+                allowNull: false,
+            },
         },
         {
             charset: "utf8mb4",
