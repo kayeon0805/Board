@@ -1,5 +1,8 @@
-const { observable } = require("mobx");
+const { observable, flow, configure } = require("mobx");
+configure({ enforceActions: "never" });
 const axios = require("axios");
+
+axios.defaults.baseURL = "http://localhost:8085";
 
 const pageStore = observable({
     page: 1,
@@ -11,21 +14,39 @@ const pageStore = observable({
 const userStore = observable({
     isLoggedIn: false,
     data: null,
-    login: function async(data) {
+    loginLoading: false,
+    loginError: null,
+    signupLoading: false,
+    signupError: null,
+    login: flow(function* (data) {
         try {
-            await axios
-                .post("/user/login", data)
-                .then(() => (this.isLoggedIn = true), (this.data = data))
-                .catch();
+            this.loginLoading = true;
+            const result = yield axios.post("/user/login", data);
+            this.isLoggedIn = true;
+            this.data = data;
+            this.loginLoading = false;
+            return "success";
         } catch (error) {
-            console.error(error);
+            this.loginLoading = false;
+            this.loginError = error.response.data;
+            return this.loginError;
         }
-    },
+    }),
+    signup: flow(function* (data) {
+        try {
+            this.signupLoading = true;
+            const result = yield axios.post("/user", data);
+            this.signupLoading = false;
+            return "success";
+        } catch (error) {
+            this.signupLoading = false;
+            this.signupError = error.response.data;
+            return this.signupError;
+        }
+    }),
     logout: function () {
-        (this.isLoggedIn = false), (this.data = null);
-    },
-    signup: function async(data) {
-        const result = await axios.post("/user", data);
+        this.isLoggedIn = false;
+        this.data = null;
     },
 });
 

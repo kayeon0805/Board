@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { userStore } from "../store";
 import { observer, useLocalObservable } from "mobx-react";
 import "antd/dist/antd.css";
@@ -6,6 +6,7 @@ import { Button, Form, Input } from "antd";
 import styled from "styled-components";
 import AppLayout from "./AppLayout";
 import { Link, useNavigate } from "react-router-dom";
+import { toJS } from "mobx";
 
 const FormWrapper = styled.div`
     width: 400px;
@@ -32,11 +33,23 @@ const LoginForm = () => {
 
     const navigate = useNavigate();
     const onLogin = useCallback(() => {
-        userStore.login({
-            email: state.email,
-            password: state.password,
-        });
-        navigate("/");
+        userStore
+            .login({
+                email: state.email,
+                password: state.password,
+            })
+            .then((response) => {
+                // 로그인 성공할 시
+                if (response === "success") {
+                    navigate("/");
+                } else {
+                    // 로그인 실패 시
+                    state.email = "";
+                    state.password = "";
+                    alert(response);
+                    navigate("/login");
+                }
+            });
     }, [state.email, state.password]);
 
     return (
@@ -68,7 +81,12 @@ const LoginForm = () => {
                     </div>
                     <div>
                         <ButtonWrapper>
-                            <Button htmlType="submit">로그인</Button>
+                            <Button
+                                htmlType="submit"
+                                loading={toJS(userStore.loginLoading)}
+                            >
+                                로그인
+                            </Button>
                             <Button>
                                 <Link to="/signup">회원가입</Link>
                             </Button>

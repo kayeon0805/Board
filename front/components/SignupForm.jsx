@@ -6,6 +6,7 @@ import { Button, Form, Input } from "antd";
 import styled from "styled-components";
 import AppLayout from "./AppLayout";
 import { useNavigate } from "react-router-dom";
+import { toJS } from "mobx";
 
 const FormWrapper = styled.div`
     width: 400px;
@@ -49,12 +50,24 @@ const SignupForm = () => {
 
     const navigate = useNavigate();
     const onSignup = () => {
-        userStore.signup({
-            email: state.email,
-            password: state.password,
-            nickname: state.nickname,
-        });
-        navigate("/login");
+        userStore
+            .signup({
+                email: state.email,
+                password: state.password,
+                nickname: state.nickname,
+            })
+            .then((response) => {
+                // 회원가입 성공할 시
+                if (response === "success") {
+                    navigate("/login");
+                } else {
+                    // 회원가입 실패 시
+                    state.email = "";
+
+                    alert(response);
+                    navigate("/signup");
+                }
+            });
     };
 
     return (
@@ -116,6 +129,7 @@ const SignupForm = () => {
                             <Button
                                 htmlType="submit"
                                 disabled={state.passwordError}
+                                loading={toJS(userStore.signupLoading)}
                             >
                                 회원가입
                             </Button>
