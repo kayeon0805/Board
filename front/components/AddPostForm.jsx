@@ -34,6 +34,7 @@ const AddPostForm = () => {
         postStore.addPost({
             title: state.title,
             content: state.content,
+            date: new Date().toISOString().substring(0, 10),
         });
         navigate("/");
     }, [state.title, state.content]);

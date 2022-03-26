@@ -1,4 +1,4 @@
-const { observable, flow, configure } = require("mobx");
+const { observable, flow, configure, toJS } = require("mobx");
 configure({ enforceActions: "never" });
 const axios = require("axios");
 
@@ -51,57 +51,36 @@ const userStore = observable({
 });
 
 const postStore = observable({
-    posts: [
-        {
-            postId: 3,
-            email: "1",
-            nickname: "쿠키쿠키",
-            title: "세번째 게시글입니다.",
-            content: "내용내용내용내용",
-            date: "2022-03-17",
-            count: 0,
-            Comments: [],
-        },
-        {
-            postId: 2,
-            email: "kayeon2",
-            nickname: "kayeon2",
-            title: "2",
-            content: "두번쩨 게시글",
-            date: "2022-03-17",
-            count: 0,
-            Comments: [],
-        },
-        {
-            postId: 1,
-            email: "kayeon",
-            nickname: "kayeon",
-            title: "1",
-            content: "첫 게시글",
-            date: "2022-03-17",
-            count: 0,
-            Comments: [],
-        },
-    ],
+    posts: [],
+    addPostLoading: false,
+    addPostError: false,
     addCount: function (postId) {
         const postIndex = this.posts.findIndex((v) => v.postId === postId);
         const post = this.posts[postIndex];
         post.count += 1;
     },
-    addPost: function (data) {
-        const userInfo = userStore.data;
-        const postData = {
-            postId: this.posts[0].postId + 1,
-            email: userInfo.email,
-            nickname: userInfo.nickname || "kayeon",
-            title: data.title,
-            content: data.content,
-            date: new Date().toISOString().substring(0, 10),
-            count: 0,
-            Comments: [],
-        };
-        this.posts.unshift(postData);
-    },
+    showPosts: flow(function* () {
+        try {
+            const result = yield axios.get("/posts");
+            const posts = result.data.posts;
+            this.posts = posts;
+            console.log(toJS(this.posts));
+        } catch (error) {
+            console.error(error);
+        }
+    }),
+    addPost: flow(function* (data) {
+        try {
+            this.addPostLoading = true;
+            const result = yield axios.post("/post", data);
+            const post = result.data;
+            this.posts.unshift(post);
+            this.addPostLoading = false;
+        } catch (error) {
+            this.addPostLoading = false;
+            this.addPostError = error.response.data;
+        }
+    }),
     modifyPost: function (data) {
         const postIndex = this.posts.findIndex((v) => v.postId === data.postId);
         const post = this.posts[postIndex];
