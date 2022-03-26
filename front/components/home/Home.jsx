@@ -14,7 +14,6 @@ const Home = () => {
     useEffect(() => {
         postStore.showPosts();
     }, []);
-
     const page = toJS(pageStore.page);
     // 페이지에 따라 보여주는 게시물을 다르게 하기 위해
     const selectPost = [0, 9];
