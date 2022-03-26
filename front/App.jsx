@@ -11,12 +11,12 @@ const App = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route exact path="/" element={<Home />} />
-                <Route exact path="/post/add" element={<AddPostForm />} />
-                <Route exact path="/login" element={<LoginForm />} />
                 <Route exact path="/post/modify" element={<ModifyPostForm />} />
-                <Route exact path="/post/:postId" element={<PostContent />} />
                 <Route exact path="/signup" element={<SignupForm />} />
+                <Route exact path="/post/:postId" element={<PostContent />} />
+                <Route exact path="/" element={<Home />} />
+                <Route exact path="/login" element={<LoginForm />} />
+                <Route exact path="/post/add" element={<AddPostForm />} />
             </Routes>
         </BrowserRouter>
     );
