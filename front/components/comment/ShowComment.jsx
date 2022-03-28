@@ -1,46 +1,11 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Card } from "antd";
 import Meta from "antd/lib/card/Meta";
 import { toJS } from "mobx";
 import { observer } from "mobx-react";
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { postStore, userStore } from "../store";
-
-const CardWrapper = styled(Card)`
-    margin: auto;
-    width: 800px;
-
-    & .ant-card-meta-title {
-        height: 20px;
-        text-align: right;
-        color: #58595b;
-    }
-
-    & .ant-card-meta-description {
-        font-size: medium;
-        color: #58595b;
-        padding-bottom: 40px;
-    }
-`;
-
-const ModifyCommentCard = styled.div`
-    width: 800px;
-    height: 150px;
-    margin: auto;
-    border: 1px solid #f0f0f0;
-
-    & textarea {
-        resize: "none";
-        width: 800px;
-        height: 100px;
-    }
-
-    & button {
-        float: right;
-    }
-`;
+import { postStore, userStore } from "../../store";
+import * as Styled from "./styled";
 
 const ShowComment = ({ Comment, post }) => {
     const navigate = useNavigate();
@@ -77,17 +42,22 @@ const ShowComment = ({ Comment, post }) => {
 
     if (modifyComment) {
         return (
-            <ModifyCommentCard>
+            <Styled.ModifyCommentCard>
                 <form>
-                    <textarea value={editComment} onChange={onChangeComment} />
-                    <button onClick={onClickModify}>수정</button>
+                    <Styled.CommentTextarea
+                        value={editComment}
+                        onChange={onChangeComment}
+                    />
+                    <Styled.CommentButton onClick={onClickModify}>
+                        수정
+                    </Styled.CommentButton>
                 </form>
-            </ModifyCommentCard>
+            </Styled.ModifyCommentCard>
         );
     }
 
     return (
-        <CardWrapper
+        <Styled.CommentCard
             actions={
                 userStore.data &&
                 Comment.id === toJS(userStore.data.id) && [
@@ -100,7 +70,7 @@ const ShowComment = ({ Comment, post }) => {
                 title={`${Comment.nickname}  |  ${Comment.date}`}
                 description={Comment.content}
             />
-        </CardWrapper>
+        </Styled.CommentCard>
     );
 };
 

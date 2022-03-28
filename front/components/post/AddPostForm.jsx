@@ -1,21 +1,12 @@
 import { Button, Form, Input } from "antd";
+import { toJS } from "mobx";
 import { observer, useLocalObservable } from "mobx-react";
 import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { postStore } from "../store";
-import AppLayout from "./AppLayout";
-
-const FormWrapper = styled.div`
-    width: 600px;
-    margin: auto;
-    margin-top: 10px;
-`;
-
-const ButtonWrapper = styled.div`
-    margin-top: 10px;
-    text-align: center;
-`;
+import { postStore, userStore } from "../../store";
+import { TopButton } from "../common/styled";
+import AppLayout from "../header/AppLayout";
+import { AddForm } from "./styled";
 
 const AddPostForm = () => {
     const state = useLocalObservable(() => ({
@@ -31,16 +22,19 @@ const AddPostForm = () => {
 
     const navigate = useNavigate();
     const onAddPost = useCallback(() => {
+        const userId = toJS(userStore.data.id);
         postStore.addPost({
             title: state.title,
             content: state.content,
+            date: new Date().toISOString().substring(0, 10),
+            userId: userId,
         });
         navigate("/");
     }, [state.title, state.content]);
 
     return (
         <AppLayout>
-            <FormWrapper>
+            <AddForm>
                 <Form onFinish={onAddPost}>
                     <Form.Item label="제목">
                         <Input
@@ -65,11 +59,11 @@ const AddPostForm = () => {
                             autoSize={{ minRows: 15 }}
                         />
                     </Form.Item>
-                    <ButtonWrapper>
+                    <TopButton>
                         <Button htmlType="submit">작성</Button>
-                    </ButtonWrapper>
+                    </TopButton>
                 </Form>
-            </FormWrapper>
+            </AddForm>
         </AppLayout>
     );
 };

@@ -42,7 +42,8 @@ router.post("/login", async (req, res, next) => {
         if (!match) {
             return res.status(400).send("비밀번호가 틀렸습니다.");
         }
-        res.status(200).send("OK");
+        const { id, email, nickname } = exUser.dataValues;
+        res.status(200).json({ id: id, email: email, nickname: nickname });
     } catch (error) {
         console.error(error);
         next(error);

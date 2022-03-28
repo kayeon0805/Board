@@ -1,28 +1,19 @@
 import React, { useCallback, useEffect } from "react";
-import { userStore } from "../store";
+import { userStore } from "../../store";
 import { observer, useLocalObservable } from "mobx-react";
 import "antd/dist/antd.css";
 import { Button, Form, Input } from "antd";
-import styled from "styled-components";
-import AppLayout from "./AppLayout";
 import { Link, useNavigate } from "react-router-dom";
 import { toJS } from "mobx";
-
-const FormWrapper = styled.div`
-    width: 400px;
-    margin: auto;
-    margin-top: 10px;
-`;
-
-const ButtonWrapper = styled.div`
-    margin-top: 10px;
-    text-align: center;
-`;
+import { FormWrapper, TopButton } from "../common/styled";
+import AppLayout from "../header/AppLayout";
 
 const LoginForm = () => {
+    const navigate = useNavigate();
+
     const state = useLocalObservable(() => ({
-        email: "",
-        password: "",
+        email: null,
+        password: null,
         onChangeEmail: function (e) {
             this.email = e.target.value;
         },
@@ -31,7 +22,6 @@ const LoginForm = () => {
         },
     }));
 
-    const navigate = useNavigate();
     const onLogin = useCallback(() => {
         userStore
             .login({
@@ -40,14 +30,12 @@ const LoginForm = () => {
             })
             .then((response) => {
                 // 로그인 성공할 시
-                if (response === "success") {
+                if (response.state) {
                     navigate("/");
                 } else {
                     // 로그인 실패 시
-                    state.email = "";
-                    state.password = "";
-                    alert(response);
-                    navigate("/login");
+                    alert(response.message);
+                    window.location.reload();
                 }
             });
     }, [state.email, state.password]);
@@ -80,7 +68,7 @@ const LoginForm = () => {
                         </Form.Item>
                     </div>
                     <div>
-                        <ButtonWrapper>
+                        <TopButton>
                             <Button
                                 htmlType="submit"
                                 loading={toJS(userStore.loginLoading)}
@@ -90,7 +78,7 @@ const LoginForm = () => {
                             <Button>
                                 <Link to="/signup">회원가입</Link>
                             </Button>
-                        </ButtonWrapper>
+                        </TopButton>
                     </div>
                 </Form>
             </FormWrapper>

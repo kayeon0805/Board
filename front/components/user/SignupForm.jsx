@@ -1,23 +1,12 @@
 import React, { useEffect } from "react";
-import { userStore } from "../store";
+import { userStore } from "../../store";
 import { observer, useLocalObservable } from "mobx-react";
 import "antd/dist/antd.css";
 import { Button, Form, Input } from "antd";
-import styled from "styled-components";
-import AppLayout from "./AppLayout";
+import * as Styled from "../common/styled";
 import { useNavigate } from "react-router-dom";
 import { toJS } from "mobx";
-
-const FormWrapper = styled.div`
-    width: 400px;
-    margin: auto;
-    margin-top: 10px;
-`;
-
-const ButtonWrapper = styled.div`
-    margin-top: 10px;
-    text-align: center;
-`;
+import AppLayout from "../header/AppLayout";
 
 const SignupForm = () => {
     const state = useLocalObservable(() => ({
@@ -58,21 +47,19 @@ const SignupForm = () => {
             })
             .then((response) => {
                 // 회원가입 성공할 시
-                if (response === "success") {
+                if (response.state) {
                     navigate("/login");
                 } else {
                     // 회원가입 실패 시
-                    state.email = "";
-
-                    alert(response);
-                    navigate("/signup");
+                    alert(response.message);
+                    window.location.reload();
                 }
             });
     };
 
     return (
         <AppLayout>
-            <FormWrapper>
+            <Styled.FormWrapper>
                 <Form onFinish={onSignup}>
                     <div>
                         <Form.Item label="아이디">
@@ -125,7 +112,7 @@ const SignupForm = () => {
                         </Form.Item>
                     </div>
                     <div>
-                        <ButtonWrapper>
+                        <Styled.TopButton>
                             <Button
                                 htmlType="submit"
                                 disabled={state.passwordError}
@@ -133,10 +120,10 @@ const SignupForm = () => {
                             >
                                 회원가입
                             </Button>
-                        </ButtonWrapper>
+                        </Styled.TopButton>
                     </div>
                 </Form>
-            </FormWrapper>
+            </Styled.FormWrapper>
         </AppLayout>
     );
 };

@@ -1,34 +1,10 @@
+import { toJS } from "mobx";
 import { useLocalObservable } from "mobx-react";
 import { observer } from "mobx-react-lite";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { postStore } from "../store";
-
-const FormWrapper = styled.div`
-    margin: auto;
-    margin-top: 10px;
-    text-align: center;
-
-    #description {
-        margin-right: 770px;
-        color: #6c6e70;
-    }
-
-    & textarea {
-        resize: "none";
-        width: 800px;
-        height: 100px;
-    }
-`;
-
-const ButtonWrapper = styled.div`
-    margin-left: 700px;
-
-    & button {
-        margin-left: 10px;
-    }
-`;
+import { postStore, userStore } from "../../store";
+import * as Styled from "./styled";
 
 const AddCommentForm = ({ post, setAddComment }) => {
     const state = useLocalObservable(() => ({
@@ -40,8 +16,10 @@ const AddCommentForm = ({ post, setAddComment }) => {
 
     const navigate = useNavigate();
     const onClick = useCallback(() => {
+        const userId = toJS(userStore.data.id);
         postStore.addComment({
-            postId: post.postId,
+            userId: userId,
+            postId: post.id,
             content: state.comment,
         });
         navigate(`/`);
@@ -52,21 +30,23 @@ const AddCommentForm = ({ post, setAddComment }) => {
     }, [setAddComment]);
 
     return (
-        <FormWrapper>
+        <Styled.AddCommentForm>
             <form>
-                <div id="description">댓글</div>
-                <textarea
+                <Styled.CommentDescription>댓글</Styled.CommentDescription>
+                <Styled.CommentTextarea
                     autoFocus
                     value={state.comment}
                     onChange={state.onChangeComment}
                     required
                 />
-                <ButtonWrapper>
+                <Styled.CommentButtonWrapper>
                     <button onClick={onClick}>입력</button>
-                    <button onClick={onCancle}>취소</button>
-                </ButtonWrapper>
+                    <Styled.CancelButton onClick={onCancle}>
+                        취소
+                    </Styled.CancelButton>
+                </Styled.CommentButtonWrapper>
             </form>
-        </FormWrapper>
+        </Styled.AddCommentForm>
     );
 };
 

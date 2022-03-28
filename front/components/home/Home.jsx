@@ -1,15 +1,20 @@
-import React from "react";
-import AppLayout from "./AppLayout";
-import { pageStore, postStore, userStore } from "../store";
+import React, { useEffect } from "react";
 import { observer } from "mobx-react";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
 import PostList from "./PostList";
 import Paging from "./Paging";
 import { toJS } from "mobx";
-import { ButtonWrapper, TableWrapper } from "../styles";
+import * as Styled from "./styled";
+import { AddPostButton } from "./styled";
+import AppLayout from "../header/AppLayout";
+import { pageStore, postStore, userStore } from "../../store";
 
 const Home = () => {
+    useEffect(() => {
+        postStore.showPosts();
+    }, []);
+
     const page = toJS(pageStore.page);
     // 페이지에 따라 보여주는 게시물을 다르게 하기 위해
     const selectPost = [0, 9];
@@ -41,21 +46,29 @@ const Home = () => {
     return (
         <AppLayout>
             {postStore.posts.length > 0 ? (
-                <TableWrapper>
+                <Styled.GreyTableWrapper>
                     <tbody>
                         <tr>
-                            <td className="table-division">제목</td>
-                            <td className="table-division">작성자</td>
-                            <td className="table-division">작성일시</td>
-                            <td className="table-division">조회수</td>
+                            <Styled.GreyTableDivision>
+                                제목
+                            </Styled.GreyTableDivision>
+                            <Styled.GreyTableDivision>
+                                작성자
+                            </Styled.GreyTableDivision>
+                            <Styled.GreyTableDivision>
+                                작성일시
+                            </Styled.GreyTableDivision>
+                            <Styled.GreyTableDivision>
+                                조회수
+                            </Styled.GreyTableDivision>
                         </tr>
                         {rendering()}
                     </tbody>
-                </TableWrapper>
+                </Styled.GreyTableWrapper>
             ) : (
                 <div>게시글이 존재하지 않습니다.</div>
             )}
-            <ButtonWrapper>
+            <AddPostButton>
                 <Button onClick={onClick}>
                     {userStore.data ? (
                         <Link to="/post/add">게시글 작성</Link>
@@ -63,7 +76,7 @@ const Home = () => {
                         "게시글 작성"
                     )}
                 </Button>
-            </ButtonWrapper>
+            </AddPostButton>
             <Paging page={page} />
         </AppLayout>
     );

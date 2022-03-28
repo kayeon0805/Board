@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING(30),
                 allowNull: false,
             },
+            count: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
         },
         {
             charset: "utf8mb4",

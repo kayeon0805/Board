@@ -1,5 +1,6 @@
 const express = require("express");
 const postRouter = require("./routes/post");
+const postsRouter = require("./routes/posts");
 const userRouter = require("./routes/user");
 const db = require("./models");
 const app = express();
@@ -24,6 +25,7 @@ app.use(
 
 app.use("/user", userRouter);
 app.use("/post", postRouter);
+app.use("/posts", postsRouter);
 
 app.listen(8085, () => {
     console.log("서버 실행 중");
