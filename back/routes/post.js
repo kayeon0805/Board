@@ -5,6 +5,7 @@ const router = express.Router();
 
 // 게시글 추가
 router.post("/", async (req, res, next) => {
+<<<<<<< HEAD
     try {
         const post = await Post.create({
             title: req.body.title,
@@ -127,6 +128,36 @@ router.patch("/", async (req, res, next) => {
         console.error(error);
         next(error);
     }
+=======
+    const post = await Post.create({
+        title: req.body.title,
+        content: req.body.content,
+        date: req.body.date,
+    });
+
+    const fullPost = await Post.findOne({
+        where: { id: post.id },
+        include: [
+            {
+                model: Image,
+            },
+            {
+                model: Comment,
+                include: [
+                    {
+                        model: User,
+                        attributes: ["email", "nickname"],
+                    },
+                ],
+            },
+            {
+                model: User,
+                attributes: ["email", "nickname"],
+            },
+        ],
+    });
+    res.status(201).json(fullPost);
+>>>>>>> 9028d69d04936c4bf3006159b72d40ed42967ab6
 });
 
 module.exports = router;
