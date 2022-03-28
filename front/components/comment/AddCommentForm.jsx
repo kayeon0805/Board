@@ -17,12 +17,21 @@ const AddCommentForm = ({ post, setAddComment }) => {
     const navigate = useNavigate();
     const onClick = useCallback(() => {
         const userId = toJS(userStore.data.id);
-        postStore.addComment({
-            userId: userId,
-            postId: post.id,
-            content: state.comment,
-        });
-        navigate(`/`);
+        postStore
+            .addComment({
+                userId: userId,
+                postId: post.id,
+                content: state.comment,
+                date: new Date().toISOString().substring(0, 10),
+            })
+            .then((response) => {
+                if (response.state) {
+                    navigate(`/post/${post.id}`);
+                } else {
+                    alert(response.message);
+                    navigate("/");
+                }
+            });
     }, [state.comment]);
 
     const onCancle = useCallback(() => {

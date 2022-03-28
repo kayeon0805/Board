@@ -1,5 +1,5 @@
 import axios from "axios";
-import { flow, observable } from "mobx";
+import { flow, observable, toJS } from "mobx";
 
 const store = observable({
     posts: [],
@@ -65,20 +65,36 @@ const store = observable({
     },
     addComment: flow(function* (data) {
         try {
+            this.addCommentLoading = true;
             const result = yield axios.post("/comment", data);
+            this.addCommentLoading = false;
+            return {
+                state: true,
+            };
         } catch (error) {
             this.addCommentLoading = false;
-            console.error(error);
+            return {
+                state: false,
+                message: error.response.data,
+            };
         }
     }),
-    modifyComment: function (data) {
-        const postIndex = this.posts.findIndex((v) => v.postId === data.postId);
-        const post = this.posts[postIndex];
-        const Comment = post.Comments.filter(
-            (v) => v.commentId === data.commentId
-        )[0];
-        Comment.content = data.content;
-    },
+    modifyComment: flow(function* (data) {
+        try {
+            this.modifyCommentLoading = true;
+            const result = yield axios.patch("/comment", data);
+            this.modifyCommentLoading = false;
+            return {
+                state: true,
+            };
+        } catch (error) {
+            this.modifyCommentLoading = false;
+            return {
+                state: false,
+                message: error.response.data,
+            };
+        }
+    }),
     deleteComment: function (data) {
         const postIndex = this.posts.findIndex((v) => v.postId === data.postId);
         const post = this.posts[postIndex];

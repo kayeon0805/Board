@@ -33,11 +33,12 @@ const ShowComment = ({ Comment, post }) => {
 
     const onClickModify = useCallback(() => {
         postStore.modifyComment({
-            postId: post.postId,
-            commentId: Comment.commentId,
+            postId: post.id,
+            commentId: Comment.id,
             content: editComment,
+            date: new Date().toISOString().substring(0, 10),
         });
-        navigate("/");
+        navigate(`/post/${post.id}`);
     }, [editComment]);
 
     if (modifyComment) {
@@ -60,14 +61,14 @@ const ShowComment = ({ Comment, post }) => {
         <Styled.CommentCard
             actions={
                 userStore.data &&
-                Comment.id === toJS(userStore.data.id) && [
+                Comment.UserId === toJS(userStore.data.id) && [
                     <EditOutlined key="edit" onClick={tryModifyComment} />,
                     <DeleteOutlined key="delete" onClick={onDeleteComment} />,
                 ]
             }
         >
             <Meta
-                title={`${Comment.nickname}  |  ${Comment.date}`}
+                title={`${Comment.User.nickname}  |  ${Comment.date}`}
                 description={Comment.content}
             />
         </Styled.CommentCard>
