@@ -3,6 +3,7 @@ import { Route, BrowserRouter, Routes } from "react-router-dom";
 import Home from "./components/home/Home";
 import AddPostForm from "./components/post/AddPostForm.jsx";
 import ModifyPostForm from "./components/post/ModifyPostForm.jsx";
+import PostByUser from "./components/post/postByUser";
 import PostContent from "./components/post/PostContent.jsx";
 import LoginForm from "./components/user/LoginForm";
 import SignupForm from "./components/user/SignupForm";
@@ -23,6 +24,8 @@ const App = () => {
                 <Route exact path="/post/:postId" element={<PostContent />} />
                 {/** 게시글 수정 */}
                 <Route exact path="/post/modify" element={<ModifyPostForm />} />
+                {/** 사용자별 게시글 */}
+                <Route exact path="/user/:userId" element={<PostByUser />} />
             </Routes>
         </BrowserRouter>
     );

@@ -3,7 +3,7 @@ import { useLocalObservable } from "mobx-react";
 import { observer } from "mobx-react-lite";
 import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { postStore, userStore } from "../../store";
+import { commentStore, userStore } from "../../store";
 import * as Styled from "./styled";
 
 const AddCommentForm = ({ post, setAddComment }) => {
@@ -17,7 +17,7 @@ const AddCommentForm = ({ post, setAddComment }) => {
     const navigate = useNavigate();
     const onClick = useCallback(() => {
         const userId = toJS(userStore.data.id);
-        postStore
+        commentStore
             .addComment({
                 userId: userId,
                 postId: post.id,

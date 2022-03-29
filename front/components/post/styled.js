@@ -65,3 +65,8 @@ export const CardTextarea = styled(TextArea)`
     padding: 20px;
     margin-left: 20px;
 `;
+
+export const ProfileCard = styled(CardWrapper)`
+    border: 1px solid lightgrey;
+    margin-bottom: 10px;
+`;

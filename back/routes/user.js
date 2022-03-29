@@ -1,6 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const { User } = require("../models");
+const { User, Post, Image, Comment } = require("../models");
 
 const router = express.Router();
 
@@ -44,6 +44,44 @@ router.post("/login", async (req, res, next) => {
         }
         const { id, email, nickname } = exUser.dataValues;
         res.status(200).json({ id: id, email: email, nickname: nickname });
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+});
+
+// 사용자별 게시글 불러오기
+router.get("/:userId", async (req, res, next) => {
+    try {
+        const exUser = await User.findOne({
+            where: { id: parseInt(req.params.userId) },
+        });
+        if (!exUser) {
+            return res.status(400).send("존재하지 않는 사용자입니다.");
+        }
+        const posts = await Post.findAll({
+            where: { UserId: parseInt(req.params.userId) },
+            order: [["id", "DESC"]],
+            include: [
+                {
+                    model: Image,
+                },
+                {
+                    model: Comment,
+                    include: [
+                        {
+                            model: User,
+                            attributes: ["email", "nickname"],
+                        },
+                    ],
+                },
+                {
+                    model: User,
+                    attributes: ["email", "nickname"],
+                },
+            ],
+        });
+        res.status(200).json({ posts: posts });
     } catch (error) {
         console.error(error);
         next(error);

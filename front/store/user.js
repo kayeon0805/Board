@@ -46,6 +46,21 @@ const store = observable({
         this.isLoggedIn = false;
         this.data = null;
     },
+    loadPostsByUser: flow(function* (userId) {
+        try {
+            const result = yield axios.get(`/user/${userId}`);
+            const { posts } = result.data;
+            return {
+                state: true,
+                posts: posts,
+            };
+        } catch (error) {
+            return {
+                state: false,
+                message: error.response.data,
+            };
+        }
+    }),
 });
 
 export default store;

@@ -9,7 +9,6 @@ import * as Styled from "./styled";
 const ModifyPostForm = () => {
     const post = useLocation().state;
     const navigate = useNavigate();
-    console.log(post);
 
     const state = useLocalObservable(() => ({
         title: post.title,

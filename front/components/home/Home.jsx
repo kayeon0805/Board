@@ -76,7 +76,7 @@ const Home = () => {
                     )}
                 </Button>
             </AddPostButton>
-            <Paging page={page} />
+            <Paging page={page} length={toJS(postStore.posts.length)} />
         </AppLayout>
     );
 };

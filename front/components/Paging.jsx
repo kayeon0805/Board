@@ -2,9 +2,9 @@ import { toJS } from "mobx";
 import { observer } from "mobx-react";
 import React from "react";
 import Pagination from "react-js-pagination";
-import { pageStore, postStore } from "../store";
+import { pageStore } from "../store";
 
-const Paging = ({ page }) => {
+const Paging = ({ page, length }) => {
     const handlePageChange = (page) => {
         pageStore.setPage(page);
     };
@@ -13,7 +13,7 @@ const Paging = ({ page }) => {
         <Pagination
             activePage={page}
             itemsCountPerPage={10}
-            totalItemsCount={toJS(postStore.posts.length)}
+            totalItemsCount={length}
             pageRangeDisplayed={5}
             prevPageText="‹"
             nextPageText="›"

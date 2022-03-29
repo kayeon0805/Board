@@ -5,8 +5,6 @@ const store = observable({
     posts: [],
     addPostLoading: false,
     modifyPostLoading: false,
-    addCommentLoading: false,
-    modifyCommentLoading: false,
     showPost: flow(function* (postId) {
         try {
             const result = yield axios.post(`/post/${postId}`);
@@ -60,60 +58,13 @@ const store = observable({
     }),
     deletePost: flow(function* (id) {
         try {
-            const result = axios.delete(`/post/${id}`);
+            const result = yield axios.delete(`/post/${id}`);
             return {
                 state: true,
             };
         } catch (error) {
             return {
                 state: false,
-            };
-        }
-    }),
-    addComment: flow(function* (data) {
-        try {
-            this.addCommentLoading = true;
-            const result = yield axios.post("/comment", data);
-            this.addCommentLoading = false;
-            return {
-                state: true,
-            };
-        } catch (error) {
-            this.addCommentLoading = false;
-            return {
-                state: false,
-                message: error.response.data,
-            };
-        }
-    }),
-    modifyComment: flow(function* (data) {
-        try {
-            this.modifyCommentLoading = true;
-            const result = yield axios.patch("/comment", data);
-            this.modifyCommentLoading = false;
-            return {
-                state: true,
-            };
-        } catch (error) {
-            this.modifyCommentLoading = false;
-            return {
-                state: false,
-                message: error.response.data,
-            };
-        }
-    }),
-    deleteComment: flow(function* (data) {
-        try {
-            const result = yield axios.delete(
-                `/comment?postId=${data.postId}&commentId=${data.commentId}`
-            );
-            return {
-                state: true,
-            };
-        } catch (error) {
-            return {
-                state: false,
-                message: error.response.data,
             };
         }
     }),

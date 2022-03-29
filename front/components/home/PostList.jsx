@@ -10,7 +10,9 @@ const PostList = ({ post }) => {
             <Styled.TitleTd>
                 <Link to={`/post/${post.id}`}>{post.title}</Link>
             </Styled.TitleTd>
-            <Styled.NicknameTd>{post.User.nickname}</Styled.NicknameTd>
+            <Styled.NicknameTd>
+                <Link to={`/user/${post.UserId}`}>{post.User.nickname}</Link>
+            </Styled.NicknameTd>
             <Styled.DateTd>{post.date}</Styled.DateTd>
             <Styled.CountTd>{post.count}</Styled.CountTd>
         </Styled.PostTr>

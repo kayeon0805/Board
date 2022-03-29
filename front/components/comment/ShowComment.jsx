@@ -4,7 +4,7 @@ import { toJS } from "mobx";
 import { observer } from "mobx-react";
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { postStore, userStore } from "../../store";
+import { commentStore, userStore } from "../../store";
 import * as Styled from "./styled";
 
 const ShowComment = ({ Comment, post }) => {
@@ -14,7 +14,7 @@ const ShowComment = ({ Comment, post }) => {
         if (!deleteConfirm) {
             return;
         }
-        postStore
+        commentStore
             .deleteComment({
                 postId: post.id,
                 commentId: Comment.id,
@@ -41,7 +41,7 @@ const ShowComment = ({ Comment, post }) => {
     }, []);
 
     const onClickModify = useCallback(() => {
-        postStore.modifyComment({
+        commentStore.modifyComment({
             postId: post.id,
             commentId: Comment.id,
             content: editComment,
