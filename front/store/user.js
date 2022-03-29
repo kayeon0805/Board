@@ -2,7 +2,6 @@ import axios from "axios";
 import { flow, observable } from "mobx";
 
 const store = observable({
-    isLoggedIn: false,
     data: null,
     loginLoading: false,
     signupLoading: false,
@@ -10,7 +9,6 @@ const store = observable({
         try {
             this.loginLoading = true;
             const result = yield axios.post("/user/login", data);
-            this.isLoggedIn = true;
             this.data = result.data;
             this.loginLoading = false;
             return {
@@ -43,7 +41,6 @@ const store = observable({
         }
     }),
     logout: function () {
-        this.isLoggedIn = false;
         this.data = null;
     },
     loadPostsByUser: flow(function* (userId) {

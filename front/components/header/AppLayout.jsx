@@ -20,7 +20,7 @@ const AppLayout = ({ children }) => {
                 <Menu.Item key="home" onClick={onPageOne}>
                     <Link to="/">홈페이지</Link>
                 </Menu.Item>
-                {!userStore.isLoggedIn ? (
+                {!userStore.data ? (
                     <Menu.Item key="login">
                         <Link to="/login">로그인</Link>
                     </Menu.Item>
