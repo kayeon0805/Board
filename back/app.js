@@ -6,6 +6,9 @@ const commentRouter = require("./routes/comment");
 const db = require("./models");
 const app = express();
 const cors = require("cors");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 db.sequelize
     .sync()
