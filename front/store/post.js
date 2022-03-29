@@ -21,11 +21,12 @@ const store = observable({
             };
         }
     }),
-    showPosts: flow(function* () {
+    showPosts: flow(function* (page) {
         try {
-            const result = yield axios.get("/posts");
+            const result = yield axios.get(`/posts?page=${page}`);
             const posts = result.data.posts;
             this.posts = posts;
+            return result.data.count;
         } catch (error) {
             console.error(error);
         }

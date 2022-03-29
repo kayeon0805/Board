@@ -43,13 +43,16 @@ const store = observable({
     logout: function () {
         this.data = null;
     },
-    loadPostsByUser: flow(function* (userId) {
+    loadPostsByUser: flow(function* (data) {
         try {
-            const result = yield axios.get(`/user/${userId}`);
-            const { posts } = result.data;
+            const result = yield axios.get(
+                `/user/${data.userId}?page=${data.page}`
+            );
+            const { posts, count } = result.data;
             return {
                 state: true,
                 posts: posts,
+                count: count,
             };
         } catch (error) {
             return {

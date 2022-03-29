@@ -16,47 +16,30 @@ const PostByUser = () => {
     const { userId } = useParams();
     const navigate = useNavigate();
     const [posts, setPosts] = useState(null);
+    const page = toJS(pageStore.userPage);
+    const [length, setLength] = useState(null);
 
     useEffect(async () => {
-        const posts = await userStore
-            .loadPostsByUser(userId)
+        const response = await userStore
+            .loadPostsByUser({ userId: userId, page: page })
             .then((response) => {
                 if (response.state) {
-                    return response.posts;
+                    return {
+                        posts: response.posts,
+                        count: response.count,
+                    };
                 } else {
                     alert(response.message);
                     navigate("/");
                 }
             });
-        setPosts(posts);
-    }, [userId]);
-
-    const page = toJS(pageStore.page);
-    // 페이지에 따라 보여주는 게시물을 다르게 하기 위해
-    const selectPost = [0, 9];
-    // ex) 1페이지는 0 ~ 9, 2페이지는 10 ~ 19, 3페이지는 20 ~ 29
-    if (page !== 1) {
-        selectPost.splice(0, 1, selectPost[0] + (parseInt(page) - 1) * 10);
-        selectPost.splice(1, 1, selectPost[1] + (parseInt(page) - 1) * 10);
-    }
-
-    const rendering = () => {
-        // 전체 게시글이 10개 이하일 경우
-        let postCount = selectPost[1];
-        if (posts.length - 1 < selectPost[1]) {
-            postCount = posts.length - 1;
-        }
-        const arr = [];
-        for (let i = selectPost[0]; i <= postCount; i++) {
-            console.log(arr, "담았다!");
-            arr.push(<PostList key={i} post={posts[i]} />);
-        }
-        return arr;
-    };
+        setPosts(response.posts);
+        setLength(response.count);
+    }, [userId, page]);
 
     return (
         <AppLayout>
-            {posts ? (
+            {posts && length ? (
                 <>
                     <ProfileCard>
                         <Meta
@@ -64,7 +47,7 @@ const PostByUser = () => {
                                 <Avatar src="https://joeschmoe.io/api/v1/random" />
                             }
                             title={`${posts[0].User.nickname}`}
-                            description={`총 ${posts.length}개의 게시물`}
+                            description={`총 ${length}개의 게시물`}
                         />
                     </ProfileCard>
                     <Styled.GreyTableWrapper>
@@ -83,10 +66,12 @@ const PostByUser = () => {
                                     조회수
                                 </Styled.GreyTableDivision>
                             </tr>
-                            {rendering()}
+                            {posts.map((v, i) => (
+                                <PostList key={i} post={v} />
+                            ))}
                         </tbody>
                     </Styled.GreyTableWrapper>
-                    <Paging page={page} length={posts.length} />
+                    <Paging page={page} length={length} allPost={false} />
                 </>
             ) : (
                 <div>게시글이 존재하지 않습니다.</div>

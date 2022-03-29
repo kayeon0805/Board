@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
@@ -11,30 +11,12 @@ import AppLayout from "../header/AppLayout";
 import { pageStore, postStore, userStore } from "../../store";
 
 const Home = () => {
-    useEffect(() => {
-        postStore.showPosts();
-    }, []);
     const page = toJS(pageStore.page);
-    // 페이지에 따라 보여주는 게시물을 다르게 하기 위해
-    const selectPost = [0, 9];
-    // ex) 1페이지는 0 ~ 9, 2페이지는 10 ~ 19, 3페이지는 20 ~ 29
-    if (page !== 1) {
-        selectPost.splice(0, 1, selectPost[0] + (parseInt(page) - 1) * 10);
-        selectPost.splice(1, 1, selectPost[1] + (parseInt(page) - 1) * 10);
-    }
-
-    const rendering = () => {
-        // 전체 게시글이 10개 이하일 경우
-        let postCount = selectPost[1];
-        if (toJS(postStore.posts.length - 1) < selectPost[1]) {
-            postCount = postStore.posts.length - 1;
-        }
-        const arr = [];
-        for (let i = selectPost[0]; i <= postCount; i++) {
-            arr.push(<PostList key={i} post={toJS(postStore.posts[i])} />);
-        }
-        return arr;
-    };
+    let [postsLength, setPostsLength] = useState(toJS(postStore.posts.length));
+    useEffect(async () => {
+        const count = await postStore.showPosts(page).then((count) => count);
+        setPostsLength(count);
+    }, [page]);
 
     const onClick = () => {
         if (!userStore.data) {
@@ -61,7 +43,9 @@ const Home = () => {
                                 조회수
                             </Styled.GreyTableDivision>
                         </tr>
-                        {rendering()}
+                        {postStore.posts.map((v, i) => (
+                            <PostList key={i} post={v} />
+                        ))}
                     </tbody>
                 </Styled.GreyTableWrapper>
             ) : (
@@ -76,7 +60,7 @@ const Home = () => {
                     )}
                 </Button>
             </AddPostButton>
-            <Paging page={page} length={toJS(postStore.posts.length)} />
+            <Paging page={page} length={postsLength} allPost={true} />
         </AppLayout>
     );
 };

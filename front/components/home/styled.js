@@ -22,6 +22,7 @@ export const TitleTd = styled.td`
 `;
 
 export const NicknameTd = styled.td`
+    color: #1890ff;
     border: 1px solid grey;
     width: 180px;
 `;
