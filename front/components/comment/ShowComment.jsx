@@ -14,10 +14,19 @@ const ShowComment = ({ Comment, post }) => {
         if (!deleteConfirm) {
             return;
         }
-        postStore.deleteComment({
-            postId: post.postId,
-            commentId: Comment.commentId,
-        });
+        postStore
+            .deleteComment({
+                postId: post.id,
+                commentId: Comment.id,
+            })
+            .then((response) => {
+                if (response.state) {
+                    navigate(`/post/${post.id}`);
+                } else {
+                    alert(response.message);
+                    navigate("/");
+                }
+            });
         navigate("/");
     }, []);
 

@@ -36,8 +36,6 @@ const store = observable({
         try {
             this.addPostLoading = true;
             const result = yield axios.post("/post", data);
-            const post = result.data;
-            this.posts.unshift(post);
             this.addPostLoading = false;
         } catch (error) {
             this.addPostLoading = false;
@@ -60,9 +58,18 @@ const store = observable({
             };
         }
     }),
-    deletePost: function (id) {
-        this.posts = this.posts.filter((v) => v.postId !== id);
-    },
+    deletePost: flow(function* (id) {
+        try {
+            const result = axios.delete(`/post/${id}`);
+            return {
+                state: true,
+            };
+        } catch (error) {
+            return {
+                state: false,
+            };
+        }
+    }),
     addComment: flow(function* (data) {
         try {
             this.addCommentLoading = true;
@@ -95,13 +102,21 @@ const store = observable({
             };
         }
     }),
-    deleteComment: function (data) {
-        const postIndex = this.posts.findIndex((v) => v.postId === data.postId);
-        const post = this.posts[postIndex];
-        post.Comments = post.Comments.filter(
-            (v) => v.commentId !== data.commentId
-        );
-    },
+    deleteComment: flow(function* (data) {
+        try {
+            const result = yield axios.delete(
+                `/comment?postId=${data.postId}&commentId=${data.commentId}`
+            );
+            return {
+                state: true,
+            };
+        } catch (error) {
+            return {
+                state: false,
+                message: error.response.data,
+            };
+        }
+    }),
 });
 
 export default store;

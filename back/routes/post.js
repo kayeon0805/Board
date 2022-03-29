@@ -129,4 +129,17 @@ router.patch("/", async (req, res, next) => {
     }
 });
 
+// 게시글 삭제
+router.delete("/:id", async (req, res, next) => {
+    try {
+        await Post.destroy({
+            where: { id: parseInt(req.params.id) },
+        });
+        return res.status(200).send("OK");
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+});
+
 module.exports = router;

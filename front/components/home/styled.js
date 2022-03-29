@@ -40,6 +40,10 @@ export const AddPostButton = styled(TopButton)`
     margin-left: 695px;
 `;
 
+export const PostTr = styled.tr`
+    height: 40px;
+`;
+
 export const PaginationWrapper = styled.div`
     .pagination {
         display: flex;

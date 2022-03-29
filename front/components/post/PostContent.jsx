@@ -47,8 +47,12 @@ const PostContent = () => {
         if (!deleteConfirm) {
             return;
         }
-        postStore.deletePost(post.id);
-        navigate("/");
+        postStore.deletePost(post.id).then((response) => {
+            if (!response.state) {
+                alert("게시글 삭제 중 문제가 발생하였습니다.");
+            }
+            navigate("/");
+        });
     }, [post]);
 
     return (

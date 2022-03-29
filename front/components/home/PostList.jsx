@@ -6,14 +6,14 @@ import * as Styled from "./styled";
 
 const PostList = ({ post }) => {
     return (
-        <tr>
+        <Styled.PostTr>
             <Styled.TitleTd>
                 <Link to={`/post/${post.id}`}>{post.title}</Link>
             </Styled.TitleTd>
             <Styled.NicknameTd>{post.User.nickname}</Styled.NicknameTd>
             <Styled.DateTd>{post.date}</Styled.DateTd>
             <Styled.CountTd>{post.count}</Styled.CountTd>
-        </tr>
+        </Styled.PostTr>
     );
 };
 
