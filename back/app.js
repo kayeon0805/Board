@@ -7,8 +7,13 @@ const db = require("./models");
 const app = express();
 const cors = require("cors");
 const dotenv = require("dotenv");
+const passportConfig = require("./passport");
+const passport = require("passport");
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
 
 dotenv.config();
+passportConfig();
 
 db.sequelize
     .sync()
@@ -19,6 +24,11 @@ db.sequelize
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(cookieParser());
+app.use(session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(
     cors({
