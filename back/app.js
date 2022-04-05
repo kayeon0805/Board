@@ -25,8 +25,14 @@ db.sequelize
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cookieParser());
-app.use(session());
+app.use(cookieParser(process.env.SECRET));
+app.use(
+    session({
+        saveUninitialized: false,
+        resave: false,
+        secret: process.env.SECRET,
+    })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 

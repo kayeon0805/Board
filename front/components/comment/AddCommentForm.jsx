@@ -16,10 +16,8 @@ const AddCommentForm = ({ post, setAddComment }) => {
 
     const navigate = useNavigate();
     const onClick = useCallback(() => {
-        const userId = toJS(userStore.data.id);
         commentStore
             .addComment({
-                userId: userId,
                 postId: post.id,
                 content: state.comment,
                 date: new Date().toISOString().substring(0, 10),

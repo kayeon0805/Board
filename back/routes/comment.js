@@ -1,10 +1,10 @@
 const express = require("express");
 const { Post, Comment } = require("../models");
-
+const { isLoggedIn } = require("./middlewares");
 const router = express.Router();
 
 // 댓글 추가
-router.post("/", async (req, res, next) => {
+router.post("/", isLoggedIn, async (req, res, next) => {
     try {
         const post = await Post.findOne({
             where: { id: req.body.postId },
@@ -14,7 +14,7 @@ router.post("/", async (req, res, next) => {
         }
         await Comment.create({
             content: req.body.content,
-            UserId: req.body.userId,
+            UserId: req.user.id,
             PostId: req.body.postId,
             date: req.body.date,
         });
@@ -26,7 +26,7 @@ router.post("/", async (req, res, next) => {
 });
 
 // 댓글 수정
-router.patch("/", async (req, res, next) => {
+router.patch("/", isLoggedIn, async (req, res, next) => {
     try {
         const post = await Post.findOne({
             where: { id: req.body.postId },
@@ -51,7 +51,7 @@ router.patch("/", async (req, res, next) => {
 });
 
 // 댓글 삭제
-router.delete("/", async (req, res, next) => {
+router.delete("/", isLoggedIn, async (req, res, next) => {
     try {
         const { postId, commentId } = req.query;
         const post = await Post.findOne({

@@ -1,17 +1,17 @@
 const express = require("express");
 const { Post, Image, Comment, User } = require("../models");
-
+const { isLoggedIn } = require("./middlewares");
 const router = express.Router();
 
 // 게시글 추가
-router.post("/", async (req, res, next) => {
+router.post("/", isLoggedIn, async (req, res, next) => {
     try {
         const post = await Post.create({
             title: req.body.title,
             content: req.body.content,
             date: req.body.date,
             count: 0,
-            UserId: req.body.userId,
+            UserId: req.user.id,
         });
 
         const fullPost = await Post.findOne({
@@ -86,7 +86,7 @@ router.post("/:postId", async (req, res, next) => {
 });
 
 // 게시글 수정
-router.patch("/", async (req, res, next) => {
+router.patch("/", isLoggedIn, async (req, res, next) => {
     try {
         const post = await Post.findOne({
             where: { id: req.body.postId },
@@ -130,7 +130,7 @@ router.patch("/", async (req, res, next) => {
 });
 
 // 게시글 삭제
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", isLoggedIn, async (req, res, next) => {
     try {
         await Post.destroy({
             where: { id: parseInt(req.params.id) },

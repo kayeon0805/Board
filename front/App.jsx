@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 import Home from "./components/home/Home";
 import AddPostForm from "./components/post/AddPostForm.jsx";
@@ -7,8 +7,13 @@ import PostByUser from "./components/post/postByUser";
 import PostContent from "./components/post/PostContent.jsx";
 import LoginForm from "./components/user/LoginForm";
 import SignupForm from "./components/user/SignupForm";
+import { userStore } from "./store";
 
 const App = () => {
+    useEffect(() => {
+        userStore.loadMyInfo();
+    }, []);
+
     return (
         <BrowserRouter>
             <Routes>

@@ -2,10 +2,26 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const { User, Post, Image, Comment } = require("../models");
 const passport = require("passport");
+const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const router = express.Router();
 
+// 사용자 불러오기
+router.get("/", async (req, res, next) => {
+    try {
+        if (req.user) {
+            const user = await User.findOne({ where: { id: req.user.id } });
+            res.status(200).json(user);
+        } else {
+            res.status(200).json(null);
+        }
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+});
+
 // 회원가입
-router.post("/", async (req, res, next) => {
+router.post("/", isNotLoggedIn, async (req, res, next) => {
     try {
         const exUser = await User.findOne({
             where: { email: req.body.email },
@@ -30,8 +46,10 @@ router.post("/", async (req, res, next) => {
 // 전략 실행, err, user, reason => passpoer/local.js에 콜백 함수에서 넘어옴.
 router.post(
     "/login",
+    isNotLoggedIn,
     // 미들웨어 확장
     (req, res, next) => {
+        // passport/local 전략 실행
         passport.authenticate("local", (err, user, info) => {
             // 서버 에러
             if (err) {
@@ -46,6 +64,7 @@ router.post(
                 passport login, 서버에서 로그인할 때 다 통과하면 passport에서 한 번 더 함.
                 req.logIn 할 때 알아서 내부적으로 ex) res.setHeader('Cookie', 'cxhly');
                 이런 식으로 해주고 세션과도 연결해준다.
+                req.logIn이 시작될 때 동시에 index에 serializeUser가 시작됨.
             */
             return req.logIn(user, async (loginErr) => {
                 if (loginErr) {
@@ -53,11 +72,19 @@ router.post(
                     return next(loginErr);
                 }
                 // 모두 성공
+                // 쿠키랑 사용자 정보를 프론트로 보냄
                 return res.status(200).json(user);
             });
         })(req, res, next);
     }
 );
+
+// 로그아웃
+router.post("/logout", isLoggedIn, (req, res) => {
+    req.logout();
+    req.session.destroy();
+    res.status(200).send("ok");
+});
 
 // 사용자별 게시글 불러오기
 router.get("/:userId", async (req, res, next) => {

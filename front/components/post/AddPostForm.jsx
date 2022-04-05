@@ -22,12 +22,10 @@ const AddPostForm = () => {
 
     const navigate = useNavigate();
     const onAddPost = useCallback(() => {
-        const userId = toJS(userStore.data.id);
         postStore.addPost({
             title: state.title,
             content: state.content,
             date: new Date().toISOString().substring(0, 10),
-            userId: userId,
         });
         navigate("/");
     }, [state.title, state.content]);

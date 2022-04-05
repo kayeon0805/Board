@@ -40,9 +40,14 @@ const store = observable({
             };
         }
     }),
-    logout: function () {
-        this.data = null;
-    },
+    logout: flow(function* () {
+        try {
+            yield axios.post("/user/logout");
+            this.data = null;
+        } catch (error) {
+            console.error(error);
+        }
+    }),
     loadPostsByUser: flow(function* (data) {
         try {
             const result = yield axios.get(
@@ -60,6 +65,12 @@ const store = observable({
                 message: error.response.data,
             };
         }
+    }),
+    loadMyInfo: flow(function* () {
+        try {
+            const result = yield axios.get("/user");
+            this.data = result.data;
+        } catch (error) {}
     }),
 });
 
