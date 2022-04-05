@@ -1,8 +1,7 @@
-import { toJS } from "mobx";
 import { observer } from "mobx-react";
 import React from "react";
 import Pagination from "react-js-pagination";
-import { pageStore } from "../store";
+import { pageStore } from "../../store";
 
 const Paging = ({ page, length }) => {
     const handlePageChange = (page) => {

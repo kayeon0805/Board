@@ -1,9 +1,8 @@
 import { Button, Form, Input } from "antd";
-import { toJS } from "mobx";
 import { observer, useLocalObservable } from "mobx-react";
 import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { postStore, userStore } from "../../store";
+import { postStore } from "../../store";
 import { TopButton } from "../common/styled";
 import AppLayout from "../header/AppLayout";
 import { AddForm } from "./styled";
