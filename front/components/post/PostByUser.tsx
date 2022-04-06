@@ -19,22 +19,25 @@ const PostByUser = () => {
     const page = toJS(pageStore.userPage);
     const [length, setLength] = useState(null);
 
-    useEffect(async () => {
-        const response = await userStore
-            .loadPostsByUser({ userId: userId, page: page })
-            .then((response) => {
-                if (response.state) {
-                    return {
-                        posts: response.posts,
-                        count: response.count,
-                    };
-                } else {
-                    alert(response.message);
-                    navigate("/");
-                }
-            });
-        setPosts(response.posts);
-        setLength(response.count);
+    useEffect(() => {
+        const getPost = async () => {
+            const response = await userStore
+                .loadPostsByUser({ userId: userId, page: page })
+                .then((response) => {
+                    if (response.state) {
+                        return {
+                            posts: response.posts,
+                            count: response.count,
+                        };
+                    } else {
+                        alert(response.message);
+                        navigate("/");
+                    }
+                });
+            setPosts(response.posts);
+            setLength(response.count);
+        };
+        getPost();
     }, [userId, page]);
 
     return (
@@ -66,7 +69,7 @@ const PostByUser = () => {
                                     조회수
                                 </Styled.GreyTableDivision>
                             </tr>
-                            {posts.map((v, i) => (
+                            {posts.map((v: any, i: any) => (
                                 <PostList key={i} post={v} />
                             ))}
                         </tbody>

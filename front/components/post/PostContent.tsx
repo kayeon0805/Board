@@ -15,24 +15,43 @@ import { CardSpan, StyledCard } from "./styled";
 import AddCommentForm from "../comment/AddCommentForm";
 import ShowComment from "../comment/ShowComment";
 
+export type UserType = {
+    email: string;
+    nickname: string;
+};
+
+export type PostType = {
+    Comments?: Array<object>;
+    User?: UserType;
+    UserId?: number;
+    content?: string;
+    count?: number;
+    date?: string;
+    id?: number;
+    title?: string;
+};
+
 const PostContent = () => {
     const { postId } = useParams();
     const [addComment, setAddComment] = useState(false);
     const navigate = useNavigate();
     const [post, setPost] = useState(null);
 
-    useEffect(async () => {
-        const post = await postStore
-            .showPost(parseInt(postId))
-            .then((response) => {
-                if (response.state) {
-                    return response.post;
-                } else {
-                    alert(response.message);
-                    navigate("/");
-                }
-            });
-        setPost(post);
+    useEffect(() => {
+        const getPost = async () => {
+            const post = await postStore
+                .showPost(parseInt(postId))
+                .then((response) => {
+                    if (response.state) {
+                        return response.post;
+                    } else {
+                        alert(response.message);
+                        navigate("/");
+                    }
+                });
+            setPost(post);
+        };
+        getPost();
     }, [postId]);
 
     const onClickAddComment = useCallback(() => {
@@ -101,7 +120,7 @@ const PostContent = () => {
                         />
                     )}
                     {post.Comments.length > 0 &&
-                        post.Comments.map((v, i) => (
+                        post.Comments.map((v: any, i: any) => (
                             <ShowComment key={i} Comment={v} post={post} />
                         ))}
                 </AppLayout>

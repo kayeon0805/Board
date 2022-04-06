@@ -5,9 +5,24 @@ import { observer } from "mobx-react";
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { commentStore, userStore } from "../../store";
+import { PostType, UserType } from "../post/PostContent";
 import * as Styled from "./styled";
 
-const ShowComment = ({ Comment, post }) => {
+type CommentType = {
+    PostId: number;
+    User: UserType;
+    UserId: number;
+    content: string;
+    date: string;
+    id: number;
+};
+
+type ShowCommentProps = {
+    Comment: CommentType;
+    post: PostType;
+};
+
+const ShowComment = ({ Comment, post }: ShowCommentProps) => {
     const navigate = useNavigate();
     const onDeleteComment = useCallback(() => {
         const deleteConfirm = confirm("댓글을 삭제하시겠습니까?");

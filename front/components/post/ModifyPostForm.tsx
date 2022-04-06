@@ -4,19 +4,20 @@ import React, { useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { postStore } from "../../store";
 import AppLayout from "../header/AppLayout";
+import { PostType } from "./PostContent";
 import * as Styled from "./styled";
 
 const ModifyPostForm = () => {
-    const post = useLocation().state;
+    const post: PostType = useLocation().state;
     const navigate = useNavigate();
 
     const state = useLocalObservable(() => ({
         title: post.title,
         content: post.content,
-        onChangeTitle: function (e) {
+        onChangeTitle: function (e: any) {
             this.title = e.target.value;
         },
-        onChangeContent: function (e) {
+        onChangeContent: function (e: any) {
             this.content = e.target.value;
         },
     }));

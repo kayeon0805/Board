@@ -1,15 +1,20 @@
-import { toJS } from "mobx";
 import { useLocalObservable } from "mobx-react";
 import { observer } from "mobx-react-lite";
 import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { commentStore, userStore } from "../../store";
+import { commentStore } from "../../store";
+import { PostType } from "../post/PostContent";
 import * as Styled from "./styled";
 
-const AddCommentForm = ({ post, setAddComment }) => {
+type AddCommentFormProps = {
+    post: PostType;
+    setAddComment: (boolean: boolean) => void;
+};
+
+const AddCommentForm = ({ post, setAddComment }: AddCommentFormProps) => {
     const state = useLocalObservable(() => ({
         comment: "",
-        onChangeComment: function (e) {
+        onChangeComment: function (e: any) {
             this.comment = e.target.value;
         },
     }));

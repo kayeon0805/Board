@@ -6,13 +6,18 @@ module.exports = {
     mode: "development",
     devtool: "inline-source-map",
     resolve: {
-        extensions: [".js", ".jsx"],
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
     },
     entry: {
         app: "./client",
     },
     module: {
         rules: [
+            {
+                test: /\.tsx?$/,
+                use: "ts-loader",
+                exclude: /node_modules/,
+            },
             {
                 test: /\.jsx?$/,
                 loader: "babel-loader",

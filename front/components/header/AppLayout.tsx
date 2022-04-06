@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { observer } from "mobx-react";
 import { pageStore, userStore } from "../../store";
 
-const AppLayout = ({ children }) => {
+const AppLayout = ({ children }: any) => {
     const navigate = useNavigate();
     const onLogout = () => {
         userStore.logout();

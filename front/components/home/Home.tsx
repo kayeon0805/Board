@@ -13,9 +13,14 @@ import { pageStore, postStore, userStore } from "../../store";
 const Home = () => {
     const page = toJS(pageStore.page);
     let [postsLength, setPostsLength] = useState(toJS(postStore.posts.length));
-    useEffect(async () => {
-        const count = await postStore.showPosts(page).then((count) => count);
-        setPostsLength(count);
+    useEffect(() => {
+        const getPostsLength = async () => {
+            const length = await postStore
+                .showPosts(page)
+                .then((length) => length);
+            setPostsLength(length);
+        };
+        getPostsLength();
     }, [page]);
 
     const onClick = () => {

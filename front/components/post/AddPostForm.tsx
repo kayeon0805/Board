@@ -11,10 +11,10 @@ const AddPostForm = () => {
     const state = useLocalObservable(() => ({
         title: "",
         content: "",
-        onChangeTitle: function (e) {
+        onChangeTitle: function (e: any) {
             this.title = e.target.value;
         },
-        onChangeContent: function (e) {
+        onChangeContent: function (e: any) {
             this.content = e.target.value;
         },
     }));

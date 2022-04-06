@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React from "react";
 import { userStore } from "../../store";
 import { observer, useLocalObservable } from "mobx-react";
 import "antd/dist/antd.css";
@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toJS } from "mobx";
 import { FormWrapper, TopButton } from "../common/styled";
 import AppLayout from "../header/AppLayout";
+import { useCallback } from "react";
 
 const LoginForm = () => {
     const navigate = useNavigate();
@@ -14,10 +15,10 @@ const LoginForm = () => {
     const state = useLocalObservable(() => ({
         email: null,
         password: null,
-        onChangeEmail: function (e) {
+        onChangeEmail: function (e: any) {
             this.email = e.target.value;
         },
-        onChangePassword: function (e) {
+        onChangePassword: function (e: any) {
             this.password = e.target.value;
         },
     }));

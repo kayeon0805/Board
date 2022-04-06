@@ -45,6 +45,10 @@ export const PostTr = styled.tr`
     height: 40px;
 `;
 
+export const PoinerCursorSpan = styled.span`
+    cursor: pointer;
+`;
+
 export const PaginationWrapper = styled.div`
     .pagination {
         display: flex;

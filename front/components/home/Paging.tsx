@@ -4,8 +4,14 @@ import { PaginationWrapper } from "./styled";
 import Pagination from "react-js-pagination";
 import { pageStore } from "../../store";
 
-const Paging = ({ page, length, allPost }) => {
-    const handlePageChange = (page) => {
+type PageingProps = {
+    page: number;
+    length: number;
+    allPost: boolean;
+};
+
+const Paging = ({ page, length, allPost }: PageingProps) => {
+    const handlePageChange = (page: number) => {
         // 전체 게시글을 불러오는지 확인
         if (allPost) {
             pageStore.setPage(page);

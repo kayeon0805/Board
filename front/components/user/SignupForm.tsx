@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { userStore } from "../../store";
 import { observer, useLocalObservable } from "mobx-react";
 import "antd/dist/antd.css";
@@ -7,6 +6,7 @@ import * as Styled from "../common/styled";
 import { useNavigate } from "react-router-dom";
 import { toJS } from "mobx";
 import AppLayout from "../header/AppLayout";
+import React, { useEffect } from "react";
 
 const SignupForm = () => {
     const state = useLocalObservable(() => ({
@@ -15,16 +15,16 @@ const SignupForm = () => {
         passwordCheck: "",
         nickname: "",
         passwordError: null,
-        onChangeEmail: function (e) {
+        onChangeEmail: function (e: any) {
             this.email = e.target.value;
         },
-        onChangePassword: function (e) {
+        onChangePassword: function (e: any) {
             this.password = e.target.value;
         },
-        onChangePasswordCheck: function (e) {
+        onChangePasswordCheck: function (e: any) {
             this.passwordCheck = e.target.value;
         },
-        onChangeNickname: function (e) {
+        onChangeNickname: function (e: any) {
             this.nickname = e.target.value;
         },
     }));
