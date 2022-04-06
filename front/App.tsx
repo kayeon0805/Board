@@ -5,6 +5,7 @@ import AddPostForm from "./components/post/AddPostForm";
 import ModifyPostForm from "./components/post/ModifyPostForm";
 import PostByUser from "./components/post/PostByUser";
 import PostContent from "./components/post/PostContent";
+import SearchPost from "./components/post/SearchPost";
 import LoginForm from "./components/user/LoginForm";
 import SignupForm from "./components/user/SignupForm";
 import { userStore } from "./store";
@@ -31,6 +32,11 @@ const App = () => {
                 <Route path="/post/modify" element={<ModifyPostForm />} />
                 {/** 사용자별 게시글 */}
                 <Route path="/user/:userId" element={<PostByUser />} />
+                {/** 게시글 검색 */}
+                <Route
+                    path="/post/search/:searchInput"
+                    element={<SearchPost />}
+                />
             </Routes>
         </BrowserRouter>
     );

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { flow, observable, toJS } from "mobx";
+import { flow, observable } from "mobx";
 
 const store = observable({
     posts: [],
@@ -62,6 +62,23 @@ const store = observable({
             const result = yield axios.delete(`/post/${id}`);
             return {
                 state: true,
+            };
+        } catch (error) {
+            return {
+                state: false,
+            };
+        }
+    }),
+    searchPost: flow(function* (data) {
+        try {
+            const result = yield axios.get(
+                `/post?search=${data.search}&page=${data.page}`
+            );
+            const { posts, count } = result.data;
+            return {
+                state: true,
+                posts: posts,
+                count: count,
             };
         } catch (error) {
             return {

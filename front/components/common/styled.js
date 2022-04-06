@@ -1,4 +1,5 @@
 import { Card } from "antd";
+import Search from "antd/lib/input/Search";
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
@@ -31,4 +32,8 @@ export const CardWrapper = styled(Card)`
 
 export const TextArea = styled.textarea`
     resize: none;
+`;
+
+export const SearchButton = styled(Search)`
+    padding-top: 10px;
 `;

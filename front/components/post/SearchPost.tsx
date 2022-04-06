@@ -1,58 +1,42 @@
-import { Avatar } from "antd";
-import Meta from "antd/lib/card/Meta";
 import { toJS } from "mobx";
 import { observer } from "mobx-react";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { pageStore, userStore } from "../../store";
+import { pageStore, postStore } from "../../store";
 import AppLayout from "../header/AppLayout";
 import Paging from "../home/Paging";
 import PostList from "../home/PostList";
 import * as Styled from "../home/styled";
-import { ProfileCard } from "./styled";
 
-const PostByUser = () => {
-    const { userId } = useParams();
-    const navigate = useNavigate();
+const SearchPost = () => {
+    const { searchInput } = useParams();
     const [posts, setPosts] = useState(null);
-    const page = toJS(pageStore.userPage);
+    const page = toJS(pageStore.searchPage);
     const [length, setLength] = useState(null);
 
     useEffect(() => {
         const getPost = async () => {
-            const response = await userStore
-                .loadPostsByUser({ userId: userId, page: page })
+            const response = await postStore
+                .searchPost({ search: searchInput, page: page })
                 .then((response) => {
-                    if (response.state) {
+                    if (response.state === true) {
                         return {
                             posts: response.posts,
                             count: response.count,
                         };
-                    } else {
-                        alert(response.message);
-                        navigate("/");
                     }
                 });
             setPosts(response.posts);
             setLength(response.count);
         };
         getPost();
-    }, [userId, page]);
+    }, [searchInput]);
 
     return (
         <AppLayout>
             {posts && length ? (
                 <>
-                    <ProfileCard>
-                        <Meta
-                            avatar={
-                                <Avatar src="https://joeschmoe.io/api/v1/random" />
-                            }
-                            title={`${posts[0].User.nickname}`}
-                            description={`총 ${length}개의 게시물`}
-                        />
-                    </ProfileCard>
                     <Styled.GreyTableWrapper>
                         <tbody>
                             <tr>
@@ -83,4 +67,4 @@ const PostByUser = () => {
     );
 };
 
-export default observer(PostByUser);
+export default observer(SearchPost);

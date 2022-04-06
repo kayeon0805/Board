@@ -7,18 +7,16 @@ import { pageStore } from "../../store";
 type PageingProps = {
     page: number;
     length: number;
-    allPost: boolean;
 };
 
-const Paging = ({ page, length, allPost }: PageingProps) => {
+const Paging = ({ page, length }: PageingProps) => {
     const handlePageChange = (page: number) => {
-        // 전체 게시글을 불러오는지 확인
-        if (allPost) {
-            pageStore.setPage(page);
-        } else {
-            // 사용자별 게시글
-            pageStore.setUserPage(page);
-        }
+        pageStore.setPage(page);
+
+        // 사용자별 게시글
+        pageStore.setUserPage(page);
+        // 검색한 게시글
+        pageStore.setUserPage(page);
     };
 
     return (

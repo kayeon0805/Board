@@ -10,6 +10,11 @@ const store = observable({
     setUserPage: function (page: number) {
         this.userPage = page;
     },
+    // 검색한 게시글 불러올 때 페이지
+    searchPage: 1,
+    setSearchrPage: function (page: number) {
+        this.searchPage = page;
+    },
 });
 
 export default store;

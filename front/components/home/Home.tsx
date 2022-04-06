@@ -65,7 +65,7 @@ const Home = () => {
                     )}
                 </Button>
             </AddPostButton>
-            <Paging page={page} length={postsLength} allPost={true} />
+            <Paging page={page} length={postsLength} />
         </AppLayout>
     );
 };

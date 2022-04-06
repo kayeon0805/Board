@@ -1,6 +1,8 @@
 const express = require("express");
 const { Post, Image, Comment, User } = require("../models");
 const { isLoggedIn } = require("./middlewares");
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
 const router = express.Router();
 
 // 게시글 추가
@@ -136,6 +138,57 @@ router.delete("/:id", isLoggedIn, async (req, res, next) => {
             where: { id: parseInt(req.params.id) },
         });
         return res.status(200).send("OK");
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+});
+
+// 게시글 검색
+router.get("/", async (req, res, next) => {
+    try {
+        const { page, search } = req.query;
+        let offset = 0;
+
+        if (parseInt(page) > 1) {
+            offset = 10 * (parseInt(page) - 1);
+        }
+        const count = await Post.count({
+            offset: offset,
+            limit: 10,
+            order: [["id", "DESC"]],
+            where: {
+                title: {
+                    [Op.like]: "%" + search + "%",
+                },
+            },
+        });
+        const posts = await Post.findAll({
+            where: {
+                title: {
+                    [Op.like]: "%" + search + "%",
+                },
+            },
+            include: [
+                {
+                    model: Image,
+                },
+                {
+                    model: Comment,
+                    include: [
+                        {
+                            model: User,
+                            attributes: ["email", "nickname"],
+                        },
+                    ],
+                },
+                {
+                    model: User,
+                    attributes: ["email", "nickname"],
+                },
+            ],
+        });
+        res.status(200).json({ posts: posts, count: count });
     } catch (error) {
         console.error(error);
         next(error);
