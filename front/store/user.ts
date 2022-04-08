@@ -70,7 +70,9 @@ const store = observable({
         try {
             const result = yield axios.get("/user");
             this.data = result.data;
-        } catch (error) {}
+        } catch (error) {
+            console.error(error);
+        }
     }),
 });
 

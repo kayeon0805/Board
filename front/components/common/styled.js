@@ -37,3 +37,9 @@ export const TextArea = styled.textarea`
 export const SearchButton = styled(Search)`
     padding-top: 10px;
 `;
+
+export const ImageHeight300 = styled.img`
+    width: auto;
+    height: 300px;
+    margin: auto;
+`;

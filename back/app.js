@@ -11,6 +11,7 @@ const passportConfig = require("./passport");
 const passport = require("passport");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 
 dotenv.config();
 passportConfig();
@@ -22,6 +23,15 @@ db.sequelize
     })
     .catch(console.error);
 
+app.use(
+    cors({
+        origin: true,
+        credentials: true,
+    })
+);
+
+// express.static 함수를 통해 제공되는 파일에 대한 가상 경로
+app.use("/", express.static(path.join(__dirname, "uploads")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -35,13 +45,6 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.use(
-    cors({
-        origin: true,
-        credentials: true,
-    })
-);
 
 app.use("/user", userRouter);
 app.use("/post", postRouter);

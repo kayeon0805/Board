@@ -1,8 +1,9 @@
 import axios from "axios";
-import { flow, observable } from "mobx";
+import { flow, observable, toJS } from "mobx";
 
 const store = observable({
     posts: [],
+    imagePaths: [],
     addPostLoading: false,
     modifyPostLoading: false,
     showPost: flow(function* (postId) {
@@ -86,6 +87,28 @@ const store = observable({
             };
         }
     }),
+    uploadImage: flow(function* (data) {
+        try {
+            const result = yield axios.post("/post/images", data);
+            const image = result.data.shift();
+            this.imagePaths.push(image);
+        } catch (error) {
+            console.error(error);
+        }
+    }),
+    deleteImage: flow(function* (data) {
+        try {
+            const result = yield axios.post("/post/images/delete", data);
+        } catch (error) {
+            console.error(error);
+        }
+    }),
+    deleteImagePaths: function (src: string) {
+        this.imagePaths = this.imagePaths.filter((v: any) => v !== src);
+    },
+    resetImagePaths: function () {
+        this.imagePaths = [];
+    },
 });
 
 export default store;

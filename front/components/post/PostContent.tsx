@@ -14,6 +14,8 @@ import { postStore, userStore } from "../../store";
 import { CardSpan, StyledCard } from "./styled";
 import AddCommentForm from "../comment/AddCommentForm";
 import ShowComment from "../comment/ShowComment";
+import ShowImages from "./ShowImages";
+import Slider from "react-slick";
 
 export type UserType = {
     email: string;
@@ -29,6 +31,17 @@ export type PostType = {
     date?: string;
     id?: number;
     title?: string;
+};
+
+export const settings = {
+    // 캐러셀의 점을 보여줄 것인지
+    dots: true,
+    // 마지막 장 다음에 첫번째가 나오게 할 것인지
+    infinite: true,
+    // 넘어가는 속도는 몇으로 할 것인지
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
 };
 
 const PostContent = () => {
@@ -50,6 +63,10 @@ const PostContent = () => {
                     }
                 });
             setPost(post);
+            console.log(post.Images);
+            post.Images.map((v: any) => {
+                console.log(v.src);
+            });
         };
         getPost();
     }, [postId]);
@@ -112,6 +129,19 @@ const PostContent = () => {
                             title={`${post.User.nickname}  |  ${post.date}`}
                             description={post.content}
                         />
+                        <Slider {...settings}>
+                            {post.Images[0] &&
+                                post.Images.map((v: any) => (
+                                    <ShowImages
+                                        key={v.src}
+                                        src={v.src}
+                                        post={{
+                                            postId: post.id,
+                                            userEmail: post.User.email,
+                                        }}
+                                    />
+                                ))}
+                        </Slider>
                     </StyledCard>
                     {addComment && (
                         <AddCommentForm

@@ -3,10 +3,36 @@ const { Post, Image, Comment, User } = require("../models");
 const { isLoggedIn } = require("./middlewares");
 const sequelize = require("sequelize");
 const Op = sequelize.Op;
+const path = require("path");
+const fs = require("fs");
+const multer = require("multer");
+
 const router = express.Router();
 
+try {
+    fs.accessSync("uploads");
+} catch (error) {
+    console.log("uploads 폴더가 없으므로 생성합니다.");
+    fs.mkdirSync("uploads");
+}
+
+const upload = multer({
+    storage: multer.diskStorage({
+        destination(req, file, done) {
+            done(null, "uploads");
+        },
+        filename(req, file, done) {
+            // a.png
+            const ext = path.extname(file.originalname); // 확장자 추출(.png)
+            const basename = path.basename(file.originalname, ext); // a
+            done(null, basename + "_" + new Date().getTime() + ext); // a15184712891.png
+        },
+    }),
+    limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
+});
+
 // 게시글 추가
-router.post("/", isLoggedIn, async (req, res, next) => {
+router.post("/", isLoggedIn, upload.none(), async (req, res, next) => {
     try {
         const post = await Post.create({
             title: req.body.title,
@@ -15,7 +41,19 @@ router.post("/", isLoggedIn, async (req, res, next) => {
             count: 0,
             UserId: req.user.id,
         });
-
+        if (req.body.image) {
+            if (Array.isArray(req.body.image)) {
+                // 이미지를 여러 개 올리면 image: [a.png, b.png]
+                const images = await Promise.all(
+                    req.body.image.map((image) => Image.create({ src: image }))
+                );
+                await post.addImages(images);
+            } else {
+                // 이미지를 하나만 올리면 image: a.png
+                const image = await Image.create({ src: req.body.image });
+                await post.addImages(image);
+            }
+        }
         const fullPost = await Post.findOne({
             where: { id: post.id },
             include: [
@@ -38,6 +76,33 @@ router.post("/", isLoggedIn, async (req, res, next) => {
             ],
         });
         res.status(201).json(fullPost);
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+});
+
+// 이미지 업로드
+// .array(fieldname) => fieldname 인자에 명시된 이름의 파일 전부를 배열 형태로 전달 받음
+router.post("/images", isLoggedIn, upload.array("image"), (req, res, next) => {
+    // req.files 는 `image` 라는 파일정보를 배열로 가지고 있음.
+    res.json(req.files.map((v) => v.filename));
+});
+
+// 이미지 삭제
+router.post("/images/delete", isLoggedIn, async (req, res, next) => {
+    try {
+        const post = await Post.findOne({
+            where: { id: req.body.post },
+        });
+        if (!post) {
+            return res.status(401).send("존재하지 않는 게시물입니다.");
+        }
+        const image = await Image.findOne({
+            where: { src: req.body.src },
+        });
+        post.removeImages(image);
+        return res.status(200).send("OK");
     } catch (error) {
         console.error(error);
         next(error);
