@@ -32,7 +32,7 @@ const Home = () => {
     return (
         <AppLayout>
             {postStore.posts.length > 0 ? (
-                <Styled.GreyTableWrapper>
+                <Styled.GreyTable>
                     <tbody>
                         <tr>
                             <Styled.GreyTableDivision>
@@ -52,7 +52,7 @@ const Home = () => {
                             <PostList key={i} post={v} />
                         ))}
                     </tbody>
-                </Styled.GreyTableWrapper>
+                </Styled.GreyTable>
             ) : (
                 <div>게시글이 존재하지 않습니다.</div>
             )}

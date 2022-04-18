@@ -1,9 +1,14 @@
 import styled from "styled-components";
-import { TableWrapper, TopButton } from "../common/styled";
+import { TopButton } from "../common/styled";
 
-export const GreyTableWrapper = styled(TableWrapper)`
-    border: 1px solid grey;
+export const GreyTableWrapper = styled.table`
+    width: 70%;
     text-align: center;
+    margin: auto;
+`;
+
+export const GreyTable = styled(GreyTableWrapper)`
+    border: 1px solid grey;
 `;
 
 export const GreyTableDivision = styled.td`
@@ -18,27 +23,28 @@ export const GreyTd = styled.td`
 
 export const TitleTd = styled.td`
     border: 1px solid grey;
-    width: 350px;
+    width: 50%;
 `;
 
 export const NicknameTd = styled.td`
     color: #1890ff;
     border: 1px solid grey;
-    width: 180px;
+    width: 20%;
 `;
 
 export const DateTd = styled.td`
     border: 1px solid grey;
-    width: 160px;
+    width: 20%;
 `;
 
 export const CountTd = styled.td`
     border: 1px solid grey;
-    width: 110px;
+    width: 20%;
 `;
 
 export const AddPostButton = styled(TopButton)`
-    margin-left: 695px;
+    width: 85%;
+    text-align: right;
 `;
 
 export const PostTr = styled.tr`

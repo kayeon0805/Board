@@ -8,7 +8,7 @@ import { postStore } from "../../store";
 import { TopButton } from "../common/styled";
 import AppLayout from "../header/AppLayout";
 import { settings } from "./PostContent";
-import ShowImages from "./ShowImages";
+import AddFormShowImages from "./AddFormShowImages";
 import { AddForm } from "./styled";
 
 const AddPostForm = () => {
@@ -19,10 +19,10 @@ const AddPostForm = () => {
     const state = useLocalObservable(() => ({
         title: "",
         content: "",
-        onChangeTitle: function (e: any) {
+        onChangeTitle: function (e: React.ChangeEvent<HTMLInputElement>) {
             this.title = e.target.value;
         },
-        onChangeContent: function (e: any) {
+        onChangeContent: function (e: React.ChangeEvent<HTMLTextAreaElement>) {
             this.content = e.target.value;
         },
     }));
@@ -62,7 +62,7 @@ const AddPostForm = () => {
         const imageFormData = new FormData();
         // FormData를 배열로 만들기 위함.
         // e.target.files => 유사배열 / f => 배열의 원소
-        [].forEach.call(e.target.files, (f: any) => {
+        [].forEach.call(e.target.files, (f: File) => {
             // routes/post => upload.array('image') 이름 맞춰줘야 함.
             imageFormData.append("image", f);
         });
@@ -87,7 +87,7 @@ const AddPostForm = () => {
                     <Slider {...settings}>
                         {imagePaths[0] &&
                             imagePaths.map((v) => (
-                                <ShowImages src={v} post={false} key={v} />
+                                <AddFormShowImages src={v} key={v} />
                             ))}
                     </Slider>
                     <Form.Item label="이미지">

@@ -8,7 +8,7 @@ export const Wrapper = styled.div`
 `;
 
 export const FormWrapper = styled(Wrapper)`
-    width: 400px;
+    width: 60%;
     margin-top: 10px;
 `;
 
@@ -20,14 +20,9 @@ export const TopButton = styled(ButtonWrapper)`
     margin-top: 10px;
 `;
 
-export const TableWrapper = styled.table`
-    width: 800px;
-    margin: auto;
-`;
-
 export const CardWrapper = styled(Card)`
     margin: auto;
-    width: 800px;
+    width: 70%;
 `;
 
 export const TextArea = styled.textarea`
@@ -41,5 +36,19 @@ export const SearchButton = styled(Search)`
 export const ImageHeight300 = styled.img`
     width: auto;
     height: 300px;
+    margin: auto;
+`;
+
+export const Container = styled.div`
+    width: 100%;
+`;
+
+export const StyledHeader = styled.div`
+    width: 90%;
+    margin: auto;
+`;
+
+export const Chidren = styled.div`
+    width: 80%;
     margin: auto;
 `;

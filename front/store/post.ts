@@ -104,7 +104,7 @@ const store = observable({
         }
     }),
     deleteImagePaths: function (src: string) {
-        this.imagePaths = this.imagePaths.filter((v: any) => v !== src);
+        this.imagePaths = this.imagePaths.filter((v: string) => v !== src);
     },
     resetImagePaths: function () {
         this.imagePaths = [];

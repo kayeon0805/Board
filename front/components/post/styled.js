@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { CardWrapper, FormWrapper, TextArea } from "../common/styled";
 
 export const AddForm = styled(FormWrapper)`
-    width: 600px;
     margin: auto;
 `;
 
@@ -36,7 +35,7 @@ export const CardSpan = styled.span`
 
 export const CardTable = styled.table`
     margin: auto;
-    width: 800px;
+    width: 70%;
     border: 1px solid #f0f0f0;
     height: 500px;
 `;
@@ -61,7 +60,7 @@ export const CardTableSpan = styled.span`
 
 export const CardTextarea = styled(TextArea)`
     height: 400px;
-    width: 750px;
+    width: 95%;
     padding: 20px;
     margin-left: 20px;
 `;

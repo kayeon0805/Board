@@ -1,18 +1,16 @@
 import { Button } from "antd";
 import React, { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { postStore, userStore } from "../../store";
 import { ImageHeight300 } from "../common/styled";
 
-type ShowImagesProps = {
+type AddFormShowImagesProps = {
     src: string;
-    postId: number;
-    userEmail: string;
 };
 
-const ShowImages = ({ src, postId, userEmail }: ShowImagesProps) => {
+const AddFormShowImages = ({ src }: AddFormShowImagesProps) => {
     const onDeleteImage = useCallback(() => {
-        postStore.deleteImage({ src: src, post: postId });
-        window.location.reload();
+        postStore.deleteImagePaths(src);
     }, []);
 
     return (
@@ -23,4 +21,4 @@ const ShowImages = ({ src, postId, userEmail }: ShowImagesProps) => {
     );
 };
 
-export default ShowImages;
+export default AddFormShowImages;

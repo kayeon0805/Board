@@ -14,7 +14,7 @@ type AddCommentFormProps = {
 const AddCommentForm = ({ post, setAddComment }: AddCommentFormProps) => {
     const state = useLocalObservable(() => ({
         comment: "",
-        onChangeComment: function (e: any) {
+        onChangeComment: function (e: React.ChangeEvent<HTMLInputElement>) {
             this.comment = e.target.value;
         },
     }));

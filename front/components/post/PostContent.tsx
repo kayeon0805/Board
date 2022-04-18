@@ -22,8 +22,27 @@ export type UserType = {
     nickname: string;
 };
 
+export type CommentType = {
+    PostId: 2;
+    User: UserType;
+    UserId: number;
+    content: string;
+    createdAt: string;
+    date: string;
+    id: number;
+    updatedAt: string;
+};
+
+export type ImageType = {
+    id: number;
+    src: string;
+    PostId: number;
+    createdAt: string;
+    updatedAt: string;
+};
+
 export type PostType = {
-    Comments?: Array<object>;
+    Comments?: CommentType;
     User?: UserType;
     UserId?: number;
     content?: string;
@@ -63,10 +82,6 @@ const PostContent = () => {
                     }
                 });
             setPost(post);
-            console.log(post.Images);
-            post.Images.map((v: any) => {
-                console.log(v.src);
-            });
         };
         getPost();
     }, [postId]);
@@ -131,14 +146,12 @@ const PostContent = () => {
                         />
                         <Slider {...settings}>
                             {post.Images[0] &&
-                                post.Images.map((v: any) => (
+                                post.Images.map((v: ImageType) => (
                                     <ShowImages
                                         key={v.src}
                                         src={v.src}
-                                        post={{
-                                            postId: post.id,
-                                            userEmail: post.User.email,
-                                        }}
+                                        postId={post.id}
+                                        userEmail={post.User.email}
                                     />
                                 ))}
                         </Slider>
@@ -150,7 +163,7 @@ const PostContent = () => {
                         />
                     )}
                     {post.Comments.length > 0 &&
-                        post.Comments.map((v: any, i: any) => (
+                        post.Comments.map((v: CommentType, i: number) => (
                             <ShowComment key={i} Comment={v} post={post} />
                         ))}
                 </AppLayout>

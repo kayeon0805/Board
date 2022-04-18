@@ -14,10 +14,10 @@ const ModifyPostForm = () => {
     const state = useLocalObservable(() => ({
         title: post.title,
         content: post.content,
-        onChangeTitle: function (e: any) {
+        onChangeTitle: function (e: React.ChangeEvent<HTMLInputElement>) {
             this.title = e.target.value;
         },
-        onChangeContent: function (e: any) {
+        onChangeContent: function (e: React.ChangeEvent<HTMLTextAreaElement>) {
             this.content = e.target.value;
         },
     }));

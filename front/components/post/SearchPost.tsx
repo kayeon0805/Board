@@ -2,12 +2,13 @@ import { toJS } from "mobx";
 import { observer } from "mobx-react";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { pageStore, postStore } from "../../store";
 import AppLayout from "../header/AppLayout";
 import Paging from "../home/Paging";
 import PostList from "../home/PostList";
 import * as Styled from "../home/styled";
+import { PostType } from "./PostContent";
 
 const SearchPost = () => {
     const { searchInput } = useParams();
@@ -53,7 +54,7 @@ const SearchPost = () => {
                                     조회수
                                 </Styled.GreyTableDivision>
                             </tr>
-                            {posts.map((v: any, i: any) => (
+                            {posts.map((v: PostType, i: number) => (
                                 <PostList key={i} post={v} />
                             ))}
                         </tbody>

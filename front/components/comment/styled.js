@@ -16,14 +16,14 @@ export const CommentCard = styled(CardWrapper)`
 `;
 
 export const ModifyCommentCard = styled.div`
-    width: 800px;
+    width: 70%;
     height: 150px;
     margin: auto;
     border: 1px solid #f0f0f0;
 `;
 
 export const CommentTextarea = styled(TextArea)`
-    width: 800px;
+    width: 100%;
     height: 100px;
 `;
 

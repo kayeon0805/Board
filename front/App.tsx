@@ -9,6 +9,7 @@ import SearchPost from "./components/post/SearchPost";
 import LoginForm from "./components/user/LoginForm";
 import SignupForm from "./components/user/SignupForm";
 import { userStore } from "./store";
+import Test from "./components/home/Test";
 
 const App = () => {
     useEffect(() => {
@@ -37,6 +38,8 @@ const App = () => {
                     path="/post/search/:searchInput"
                     element={<SearchPost />}
                 />
+                {/** 테스트용 */}
+                <Route path="/test" element={<Test />} />
             </Routes>
         </BrowserRouter>
     );
