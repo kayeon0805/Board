@@ -1,7 +1,7 @@
 import { Button } from "antd";
 import React, { useCallback } from "react";
-import { postStore, userStore } from "../../store";
-import { ImageHeight300 } from "../common/styled";
+import { postStore } from "../../store";
+import { RightButtonWrapper, ImageHeight300 } from "../common/styled";
 
 type ShowImagesProps = {
     src: string;
@@ -18,7 +18,9 @@ const ShowImages = ({ src, postId, userEmail }: ShowImagesProps) => {
     return (
         <div>
             <ImageHeight300 src={`http://localhost:8085/${src}`} />
-            <Button onClick={onDeleteImage}>삭제</Button>
+            <RightButtonWrapper>
+                <Button onClick={onDeleteImage}>사진 삭제</Button>
+            </RightButtonWrapper>
         </div>
     );
 };

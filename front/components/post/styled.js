@@ -28,11 +28,6 @@ export const StyledCard = styled(CardWrapper)`
     }
 `;
 
-export const CardSpan = styled.span`
-    float: right;
-    margin-left: 20px;
-`;
-
 export const CardTable = styled.table`
     margin: auto;
     width: 70%;
@@ -50,7 +45,7 @@ export const CardTitleTd = styled.td`
     padding: 20px;
 `;
 
-export const CardTableSpan = styled.span`
+export const CardNicknameTd = styled.td`
     float: right;
     height: 20px;
     margin-top: 20px;

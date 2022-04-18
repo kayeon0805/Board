@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react";
 import { pageStore } from "../../store";
 import * as Styled from "./styled";
-import { PostType } from "../post/PostContent";
+import { PostType } from "../type";
 
 type PostListProps = {
     post: PostType;

@@ -5,17 +5,8 @@ import { observer } from "mobx-react";
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { commentStore, userStore } from "../../store";
-import { PostType, UserType } from "../post/PostContent";
+import { CommentType, PostType } from "../type";
 import * as Styled from "./styled";
-
-type CommentType = {
-    PostId: number;
-    User: UserType;
-    UserId: number;
-    content: string;
-    date: string;
-    id: number;
-};
 
 type ShowCommentProps = {
     Comment: CommentType;

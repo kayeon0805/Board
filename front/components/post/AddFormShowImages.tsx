@@ -1,8 +1,7 @@
 import { Button } from "antd";
 import React, { useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import { postStore, userStore } from "../../store";
-import { ImageHeight300 } from "../common/styled";
+import { postStore } from "../../store";
+import { ImageHeight300, RightButtonWrapper } from "../common/styled";
 
 type AddFormShowImagesProps = {
     src: string;
@@ -16,7 +15,9 @@ const AddFormShowImages = ({ src }: AddFormShowImagesProps) => {
     return (
         <div>
             <ImageHeight300 src={`http://localhost:8085/${src}`} />
-            <Button onClick={onDeleteImage}>삭제</Button>
+            <RightButtonWrapper>
+                <Button onClick={onDeleteImage}>사진 삭제</Button>
+            </RightButtonWrapper>
         </div>
     );
 };

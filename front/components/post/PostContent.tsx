@@ -11,46 +11,12 @@ import { toJS } from "mobx";
 import { observer } from "mobx-react";
 import AppLayout from "../header/AppLayout";
 import { postStore, userStore } from "../../store";
-import { CardSpan, StyledCard } from "./styled";
+import { StyledCard } from "./styled";
 import AddCommentForm from "../comment/AddCommentForm";
 import ShowComment from "../comment/ShowComment";
 import ShowImages from "./ShowImages";
 import Slider from "react-slick";
-
-export type UserType = {
-    email: string;
-    nickname: string;
-};
-
-export type CommentType = {
-    PostId: 2;
-    User: UserType;
-    UserId: number;
-    content: string;
-    createdAt: string;
-    date: string;
-    id: number;
-    updatedAt: string;
-};
-
-export type ImageType = {
-    id: number;
-    src: string;
-    PostId: number;
-    createdAt: string;
-    updatedAt: string;
-};
-
-export type PostType = {
-    Comments?: CommentType;
-    User?: UserType;
-    UserId?: number;
-    content?: string;
-    count?: number;
-    date?: string;
-    id?: number;
-    title?: string;
-};
+import { CommentType, ImageType } from "../type";
 
 export const settings = {
     // 캐러셀의 점을 보여줄 것인지
@@ -121,7 +87,10 @@ const PostContent = () => {
                                           key="comment"
                                           onClick={onClickAddComment}
                                       />,
-                                      <Link to="/post/modify" state={post}>
+                                      <Link
+                                          to="/post/modify"
+                                          state={{ post: post }}
+                                      >
                                           <EditOutlined key="edit" />
                                       </Link>,
                                       <DeleteOutlined
@@ -137,12 +106,9 @@ const PostContent = () => {
                                   ])
                         }
                     >
-                        <CardSpan>
-                            <EyeOutlined /> {post.count}
-                        </CardSpan>
+                        <EyeOutlined /> {post.count}
                         <Meta
                             title={`${post.User.nickname}  |  ${post.date}`}
-                            description={post.content}
                         />
                         <Slider {...settings}>
                             {post.Images[0] &&
@@ -155,6 +121,7 @@ const PostContent = () => {
                                     />
                                 ))}
                         </Slider>
+                        {post.content}
                     </StyledCard>
                     {addComment && (
                         <AddCommentForm

@@ -12,11 +12,15 @@ export const FormWrapper = styled(Wrapper)`
     margin-top: 10px;
 `;
 
-export const ButtonWrapper = styled.div`
+export const CenterButtonWrapper = styled.div`
     text-align: center;
 `;
 
-export const TopButton = styled(ButtonWrapper)`
+export const RightButtonWrapper = styled.div`
+    text-align: right;
+`;
+
+export const TopButton = styled(CenterButtonWrapper)`
     margin-top: 10px;
 `;
 

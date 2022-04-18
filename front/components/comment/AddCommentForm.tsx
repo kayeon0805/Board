@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { commentStore } from "../../store";
-import { PostType } from "../post/PostContent";
+import { PostType } from "../type";
 import * as Styled from "./styled";
 
 type AddCommentFormProps = {

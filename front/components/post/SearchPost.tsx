@@ -8,7 +8,7 @@ import AppLayout from "../header/AppLayout";
 import Paging from "../home/Paging";
 import PostList from "../home/PostList";
 import * as Styled from "../home/styled";
-import { PostType } from "./PostContent";
+import { PostType } from "../type";
 
 const SearchPost = () => {
     const { searchInput } = useParams();
