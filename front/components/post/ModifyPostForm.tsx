@@ -1,11 +1,10 @@
-import { CheckSquareOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { observer, useLocalObservable } from "mobx-react";
 import React, { useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { postStore } from "../../store";
 import { CenterButtonWrapper } from "../common/styled";
-import AppLayout from "../header/AppLayout";
+import AppLayout from "../common/AppLayout";
 import { PostType } from "../type";
 import * as Styled from "./styled";
 

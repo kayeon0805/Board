@@ -9,14 +9,14 @@ type ShowImagesProps = {
     userEmail: string;
 };
 
-const ShowImages = ({ src, postId, userEmail }: ShowImagesProps) => {
+const ShowImages = ({ src, postId }: ShowImagesProps) => {
     const onDeleteImage = useCallback(() => {
         postStore.deleteImage({ src: src, post: postId });
         window.location.reload();
     }, []);
 
     return (
-        <div>
+        <div style={{ marginTop: 20 }}>
             <ImageHeight300 src={`http://localhost:8085/${src}`} />
             <RightButtonWrapper>
                 <Button onClick={onDeleteImage}>사진 삭제</Button>

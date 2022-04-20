@@ -7,7 +7,7 @@ import Paging from "./Paging";
 import { toJS } from "mobx";
 import * as Styled from "./styled";
 import { AddPostButton } from "./styled";
-import AppLayout from "../header/AppLayout";
+import AppLayout from "../common/AppLayout";
 import { pageStore, postStore, userStore } from "../../store";
 
 const Home = () => {

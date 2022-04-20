@@ -9,7 +9,7 @@ import {
 import Meta from "antd/lib/card/Meta";
 import { toJS } from "mobx";
 import { observer } from "mobx-react";
-import AppLayout from "../header/AppLayout";
+import AppLayout from "../common/AppLayout";
 import { postStore, userStore } from "../../store";
 import { StyledCard } from "./styled";
 import AddCommentForm from "../comment/AddCommentForm";
@@ -65,7 +65,7 @@ const PostContent = () => {
             return;
         }
         postStore.deletePost(post.id).then((response) => {
-            if (!response.state) {
+            if (!response) {
                 alert("게시글 삭제 중 문제가 발생하였습니다.");
             }
             navigate("/");

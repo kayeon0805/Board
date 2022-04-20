@@ -13,7 +13,6 @@ const store = observable({
             this.loginLoading = false;
             return {
                 state: true,
-                message: null,
             };
         } catch (error) {
             this.loginLoading = false;
@@ -30,7 +29,6 @@ const store = observable({
             this.signupLoading = false;
             return {
                 state: true,
-                message: null,
             };
         } catch (error) {
             this.signupLoading = false;

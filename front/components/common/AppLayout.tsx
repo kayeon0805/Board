@@ -1,7 +1,7 @@
 import React from "react";
 import "antd/dist/antd.css";
-import Header from "./Header";
-import { Chidren, Container } from "../common/styled";
+import Header from "../header/Header";
+import { Chidren, Container } from "./styled";
 
 const AppLayout = ({ children }: JSX.ElementChildrenAttribute) => {
     return (

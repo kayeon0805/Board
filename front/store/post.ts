@@ -61,13 +61,9 @@ const store = observable({
     deletePost: flow(function* (id) {
         try {
             const result = yield axios.delete(`/post/${id}`);
-            return {
-                state: true,
-            };
+            return true;
         } catch (error) {
-            return {
-                state: false,
-            };
+            return false;
         }
     }),
     searchPost: flow(function* (data) {

@@ -6,6 +6,7 @@ const Op = sequelize.Op;
 const path = require("path");
 const fs = require("fs");
 const multer = require("multer");
+const exPost = require("./deduplication/exPost");
 
 const router = express.Router();
 
@@ -54,27 +55,7 @@ router.post("/", isLoggedIn, upload.none(), async (req, res, next) => {
                 await post.addImages(image);
             }
         }
-        const fullPost = await Post.findOne({
-            where: { id: post.id },
-            include: [
-                {
-                    model: Image,
-                },
-                {
-                    model: Comment,
-                    include: [
-                        {
-                            model: User,
-                            attributes: ["email", "nickname"],
-                        },
-                    ],
-                },
-                {
-                    model: User,
-                    attributes: ["email", "nickname"],
-                },
-            ],
-        });
+        const fullPost = await exPost(post.id);
         res.status(201).json(fullPost);
     } catch (error) {
         console.error(error);
@@ -92,12 +73,7 @@ router.post("/images", isLoggedIn, upload.array("image"), (req, res, next) => {
 // 이미지 삭제
 router.post("/images/delete", isLoggedIn, async (req, res, next) => {
     try {
-        const post = await Post.findOne({
-            where: { id: req.body.post },
-        });
-        if (!post) {
-            return res.status(401).send("존재하지 않는 게시물입니다.");
-        }
+        const post = await exPost(req.body.post);
         const image = await Image.findOne({
             where: { src: req.body.src },
         });
@@ -112,31 +88,8 @@ router.post("/images/delete", isLoggedIn, async (req, res, next) => {
 // 특정 게시물 불러오기, 조회수 증가
 router.post("/:postId", async (req, res, next) => {
     try {
-        const post = await Post.findOne({
-            where: { id: req.params.postId },
-            include: [
-                {
-                    model: Image,
-                },
-                {
-                    model: Comment,
-                    include: [
-                        {
-                            model: User,
-                            attributes: ["email", "nickname"],
-                        },
-                    ],
-                },
-                {
-                    model: User,
-                    attributes: ["email", "nickname"],
-                },
-            ],
-        });
-        if (!post) {
-            return res.status(404).send("존재하지 않는 게시물입니다.");
-        }
-        const { count, id } = post.dataValues;
+        const post = await exPost(req.params.postId);
+        const { count, id } = post;
         await Post.update(
             {
                 count: parseInt(count) + 1,
@@ -155,30 +108,7 @@ router.post("/:postId", async (req, res, next) => {
 // 게시글 수정
 router.patch("/", isLoggedIn, async (req, res, next) => {
     try {
-        const post = await Post.findOne({
-            where: { id: req.body.postId },
-            include: [
-                {
-                    model: Image,
-                },
-                {
-                    model: Comment,
-                    include: [
-                        {
-                            model: User,
-                            attributes: ["email", "nickname"],
-                        },
-                    ],
-                },
-                {
-                    model: User,
-                    attributes: ["email", "nickname"],
-                },
-            ],
-        });
-        if (!post) {
-            return res.status(404).send("존재하지 않는 게시물입니다.");
-        }
+        const post = await exPost(req.body.postId);
         await Post.update(
             {
                 title: req.body.title,

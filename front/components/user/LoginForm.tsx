@@ -7,7 +7,7 @@ import { UserForm } from "./styled";
 import { Link, useNavigate } from "react-router-dom";
 import { toJS } from "mobx";
 import { TopButton } from "../common/styled";
-import AppLayout from "../header/AppLayout";
+import AppLayout from "../common/AppLayout";
 import { useCallback } from "react";
 
 const LoginForm = () => {

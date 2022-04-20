@@ -32,18 +32,18 @@ export const CommentButton = styled.button`
 `;
 
 export const AddCommentForm = styled.div`
+    width: 70%;
     margin: auto;
     margin-top: 10px;
-    text-align: center;
 `;
 
 export const CommentDescription = styled(AddCommentForm)`
-    margin-right: 770px;
+    float: left;
     color: #6c6e70;
 `;
 
 export const CommentButtonWrapper = styled.div`
-    margin-left: 700px;
+    text-align: right;
 `;
 
 export const CancelButton = styled.button`

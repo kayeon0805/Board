@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { pageStore, userStore } from "../../store";
-import AppLayout from "../header/AppLayout";
+import AppLayout from "../common/AppLayout";
 import Paging from "../home/Paging";
 import PostList from "../home/PostList";
 import * as Styled from "../home/styled";

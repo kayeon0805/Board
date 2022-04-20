@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import { postStore } from "../../store";
 import { TopButton } from "../common/styled";
-import AppLayout from "../header/AppLayout";
+import AppLayout from "../common/AppLayout";
 import { settings } from "./PostContent";
 import AddFormShowImages from "./AddFormShowImages";
 import { AddForm } from "./styled";

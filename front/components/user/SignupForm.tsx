@@ -6,7 +6,7 @@ import * as Styled from "../common/styled";
 import { UserForm } from "./styled";
 import { useNavigate } from "react-router-dom";
 import { toJS } from "mobx";
-import AppLayout from "../header/AppLayout";
+import AppLayout from "../common/AppLayout";
 import React, { useEffect } from "react";
 
 const SignupForm = () => {
