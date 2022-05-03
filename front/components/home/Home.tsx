@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
@@ -13,7 +13,7 @@ import { pageStore, postStore, userStore } from "../../store";
 const Home = () => {
     const page = toJS(pageStore.page);
     let [postsLength, setPostsLength] = useState(toJS(postStore.posts.length));
-    useEffect(() => {
+    useLayoutEffect(() => {
         const getPostsLength = async () => {
             const length = await postStore
                 .showPosts(page)
