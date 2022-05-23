@@ -1,4 +1,4 @@
-# react-mobx
+# Board
 ## Description
 mobx를 익히기 위해 만든 간단한 게시판 프로젝트입니다.
 
